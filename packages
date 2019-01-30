@@ -5,6 +5,12 @@ curl
 graphicsmagick
 screen
 mongodb
+# node requirement
+libpython-stdlib
+python
+python-minimal
+python2.7
+python2.7-minimal
 # to build native node addons
 gcc
 g++

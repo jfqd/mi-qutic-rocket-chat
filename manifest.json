@@ -23,6 +23,8 @@
     "munin_master_allow":    {"type": "text", "description": "ip addresses (alternative hostname) of the munin master node"},
     "nagios_allow":          {"type": "text", "description": "ip addresses (with cidr) of nagios server nodes, seperated by comma"},
     "logstash_redis":        {"type": "text", "description": "ip addresses of the logstash redis nodes, seperated by comma and including redis-protocoll"},
-    "vfstab":                {"type": "text", "description": "nfs mountpoint for vfstab-file"}
+    "vfstab":                {"type": "text", "description": "nfs mountpoint for vfstab-file"},
+    "rocketchat_domain":     {"type": "text", "description": "domain of the rocket.chat instance"},
+    "mongodb_url":           {"type": "text", "description": "url with credencials for external mongodb. leave blank for localhost"}
   }
 }

@@ -24,16 +24,24 @@ chmod 0500 /etc/nginx/ssl
 # service nginx restart
 
 echo "* Setup node"
+# http://linuxbsdos.com/2017/06/26/how-to-install-node-js-lts-on-debian-9-stretch/
+curl -sL https://deb.nodesource.com/setup_6.x | sudo bash -
+art-get update
+apt -qq install nodejs
 npm install -g n
 n 8.11.4
-adduser rocket
+
+# curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+# echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+# sudo apt-get update && sudo apt-get install yarn
 
 echo "* Setup rocket-chat"
-mkdir -p /var/www
-curl -L -s https://releases.rocket.chat/latest/download | tar xz -C /var/www --strip-components=1
-cd /var/www
+adduser --disabled-password --system --quiet --home /var/www/rocket rocket
+mkdir -p /var/www/rocket
+curl -L -s https://releases.rocket.chat/latest/download | tar xz -C /var/www/rocket --strip-components=1
+cd /var/www/rocket
 (cd programs/server && npm install)
-chown -R rocket:rocket /var/www/*
+chown -R rocket:rocket /var/www/rocket*
 
 echo "* Setup rocket-chat service"
 cp /usr/local/var/tmp/rocketchat.service /etc/systemd/system/rocketchat.service

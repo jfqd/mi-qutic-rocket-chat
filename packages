@@ -4,4 +4,8 @@ nginx
 curl
 graphicsmagick
 screen
-nodejs
+mongodb
+# to build native node addons
+gcc
+g++
+make

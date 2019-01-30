@@ -4,7 +4,7 @@ This repository is based on [Joyent mibe](https://github.com/jfqd/mibe).
 
 ## description
 
-rocket-chat lx-brand image
+rocket-chat lx-brand image, with rocket-chat version 0.74.0
 
 ## Build Image
 

@@ -21,7 +21,7 @@ ln -nfs /etc/nginx/sites-available/rocketchat /etc/nginx/sites-enabled/rocketcha
 mkdir -p /etc/nginx/ssl
 chmod 0500 /etc/nginx/ssl
 /usr/local/bin/ssl-selfsigned.sh -d /etc/nginx/ssl -f rocketchat
-service nginx restart
+# service nginx restart
 
 echo "* Setup node"
 npm install -g n

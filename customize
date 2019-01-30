@@ -41,10 +41,9 @@ adduser rocket rocket
 mkdir -p /var/www/rocket
 curl -L -s https://releases.rocket.chat/latest/download | tar xz -C /var/www/rocket --strip-components=1
 cd /var/www/rocket
-# this might fail so let it go...
-set +o errexit
-(cd programs/server && npm install)
-set -o errexit
+# set +o errexit
+(cd programs/server && npm install --unsafe-perm)
+# set -o errexit
 chown -R rocket:rocket /var/www/rocket*
 
 echo "* Setup rocket-chat service"

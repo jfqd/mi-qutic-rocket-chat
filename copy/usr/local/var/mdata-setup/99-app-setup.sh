@@ -9,6 +9,14 @@ if mdata-get mail_smarthost 1>/dev/null 2>&1; then
        /etc/systemd/system/rocketchat.service
 fi
 
+if mdata-get rocketchat_domain 1>/dev/null 2>&1; then
+  RC_DOMAIN=$(mdata-get rocketchat_domain)
+  gsed -i \
+       -e "s#ROOT_URL=https://rocket-chat.example.com/#ROOT_URL=${RC_DOMAIN}#" \
+       /etc/systemd/system/rocketchat.service
+  
+fi
+
 # systemctl daemon-reload
 # systemctl enable rocketchat.service
 # systemctl start rocketchat

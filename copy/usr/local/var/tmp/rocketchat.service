@@ -1,7 +1,7 @@
 [Unit]
 Description=RocketChat
 [Service]
-ExecStart=/usr/local/bin/node /home/rocket/Rocket.Chat/main.js
+ExecStart=/usr/local/bin/node /var/www/rocket/Rocket.Chat/main.js
 Restart=always
 StandardOutput=syslog
 StandardError=syslog

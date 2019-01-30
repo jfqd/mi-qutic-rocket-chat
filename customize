@@ -40,7 +40,7 @@ mkdir -p /var/www/rocket
 curl -L -s https://releases.rocket.chat/latest/download | tar xz -C /var/www/rocket --strip-components=1
 cd /var/www/rocket
 # (cd programs/server && npm install)
-chown -R rocket:rocket /var/www/rocket*
+# chown -R rocket:rocket /var/www/rocket*
 
 echo "* Setup rocket-chat service"
 cp /usr/local/var/tmp/rocketchat.service /etc/systemd/system/rocketchat.service

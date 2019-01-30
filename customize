@@ -26,7 +26,7 @@ chmod 0500 /etc/nginx/ssl
 echo "* Setup node"
 # http://linuxbsdos.com/2017/06/26/how-to-install-node-js-lts-on-debian-9-stretch/
 curl -sL https://deb.nodesource.com/setup_6.x | sudo bash -
-art-get update
+apt-get update
 apt -qq install nodejs
 npm install -g n
 n 8.11.4

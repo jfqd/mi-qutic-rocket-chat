@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -o errexit
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+MUNIN_PLUGINS="
+ps_node
+ps_nginx
+"
+
+echo "* Activate munin plugins"
+/usr/local/bin/munin-node-plugins ${MUNIN_PLUGINS}
+
+echo "* Get latest packages"
+apt-get update
+apt-get -y upgrade
+
+echo "* Setup nginx"
+mv /usr/local/var/tmp/rocketchat /etc/nginx/sites-available/rocketchat
+ln -nfs /etc/nginx/sites-available/rocketchat /etc/nginx/sites-enabled/rocketchat
+mkdir -p /etc/nginx/ssl
+chmod 0500 /etc/nginx/ssl
+/usr/local/bin/ssl-selfsigned.sh -d /etc/nginx/ssl -f rocketchat
+service nginx restart
+
+echo "* Setup node"
+npm install -g n
+n 8.11.4
+adduser rocket
+
+echo "* Setup rocket-chat"
+mkdir -p /var/www
+curl -L -s https://releases.rocket.chat/latest/download | tar xz -C /var/www --strip-components=1
+cd /var/www
+(cd programs/server && npm install)
+chown -R rocket:rocket /var/www/*
+
+echo "* Setup rocket-chat service"
+cp /usr/local/var/tmp/rocketchat.service /etc/systemd/system/rocketchat.service
+systemctl daemon-reload
+systemctl enable rocketchat.service
+# systemctl start rocketchat
+
+echo "* Cleaning up."
+history -c

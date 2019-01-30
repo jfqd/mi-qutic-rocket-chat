@@ -1,0 +1,18 @@
+[Unit]
+Description=RocketChat
+[Service]
+ExecStart=/usr/local/bin/node /home/rocket/Rocket.Chat/main.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=RocketChat
+User=rocket
+Group=rocket
+Environment=MONGO_OPLOG_URL=mongodb://127.0.0.1:27017/rocket
+Environment=MONGO_URL=mongodb://127.0.0.1:27017/rocket
+Environment=ROOT_URL=https://rocket-chat.example.com/
+Environment=PORT=3000
+Environment=MAIL_URL="smtp://noreply%40example.com:password@mail.example.com:587"
+[Install]
+WantedBy=multi-user.target
+EOF

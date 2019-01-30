@@ -1,0 +1,7 @@
+# rocket-chat dependencies
+net-tools
+nginx
+curl
+graphicsmagick
+screen
+npm

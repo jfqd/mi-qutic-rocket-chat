@@ -54,11 +54,6 @@ echo "* Setup rocket-chat service"
 cp /usr/local/var/tmp/rocketchat.service /etc/systemd/system/rocketchat.service
 
 echo "* We may use mongodb locally"
-cat <<EOF >> /etc/mongodb.conf
-
-replication:
-  replSetName:  "001-rs"
-EOF
 
 echo "* Cleaning up."
 rm -rf /usr/local/var/tmp/*

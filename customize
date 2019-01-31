@@ -67,7 +67,8 @@ chown -R rocket:rocket /var/www/rocket*
 echo "* Setup rocket-chat service"
 cp /usr/local/var/tmp/rocketchat.service /etc/systemd/system/rocketchat.service
 
-echo "* We may use mongodb locally"
+echo "* Ensure bootstrap will run next time"
+rm -rf /var/lib/bootstrap
 
 echo "* Cleaning up."
 rm -rf /usr/local/var/tmp/*

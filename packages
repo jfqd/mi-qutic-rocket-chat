@@ -11,6 +11,10 @@ python
 python-minimal
 python2.7
 python2.7-minimal
+python-pip
+build-essential
+python-dev
+git
 # to build native node addons
 gcc
 g++

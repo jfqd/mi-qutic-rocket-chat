@@ -15,6 +15,20 @@ ps_nginx
 echo "* Activate munin plugins"
 /usr/local/bin/munin-node-plugins ${MUNIN_PLUGINS}
 
+echo "* Setup mongodb plugins"
+pip install pymongo
+git clone https://github.com/comerford/mongo-munin.git /tmp/mongo-munin
+cp /tmp/mongo-munin/mongo_* /usr/share/munin/plugins
+rm -rf /tmp/mongo-munin
+ln -sf /usr/share/munin/plugins/mongo_btree /etc/munin/plugins/mongo_btree
+ln -sf /usr/share/munin/plugins/mongo_conn /etc/munin/plugins/mongo_conn
+ln -sf /usr/share/munin/plugins/mongo_lock /etc/munin/plugins/mongo_lock
+ln -sf /usr/share/munin/plugins/mongo_mem /etc/munin/plugins/mongo_mem
+ln -sf /usr/share/munin/plugins/mongo_ops /etc/munin/plugins/mongo_ops
+ln -sf /usr/share/munin/plugins/mongo_docs /etc/munin/plugins/mongo_docs
+chmod +x /usr/share/munin/plugins/mongo_*
+service munin-node restart
+
 echo "* Get latest packages"
 apt-get -y update
 apt-get -y upgrade

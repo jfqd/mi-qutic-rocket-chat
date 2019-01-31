@@ -15,8 +15,8 @@ server {
   server_name localhost;
   error_log /var/log/nginx/rocketchat.access.log;
   ssl on;
-  ssl_certificate /etc/nginx/ssl/rocket-chat.crt;
-  ssl_certificate_key /etc/nginx/ssl/rocket-chat.key;
+  ssl_certificate /etc/nginx/ssl/rocketchat.crt;
+  ssl_certificate_key /etc/nginx/ssl/rocketchat.key;
   ssl_protocols TLSv1.1 TLSv1.2;
   location / {
     proxy_pass http://backend;

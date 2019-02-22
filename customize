@@ -15,6 +15,9 @@ ps_nginx
 echo "* Activate munin plugins"
 /usr/local/bin/munin-node-plugins ${MUNIN_PLUGINS}
 
+echo "* Setup mongodb service"
+mv /usr/local/var/tmp/mongodb.service /etc/systemd/system/multi-user.target.wants/mongodb.service
+
 echo "* Setup mongodb plugins"
 pip install pymongo
 git clone https://github.com/comerford/mongo-munin.git /tmp/mongo-munin
@@ -29,9 +32,10 @@ ln -sf /usr/share/munin/plugins/mongo_docs /etc/munin/plugins/mongo_docs
 chmod +x /usr/share/munin/plugins/mongo_*
 service munin-node restart
 
-echo "* Get latest packages"
+echo "* Get latest"
 apt-get -y update
 apt-get -y upgrade
+apt-get -y dist-upgrade
 
 echo "* Setup nginx"
 mv /usr/local/var/tmp/rocketchat /etc/nginx/sites-available/rocketchat
@@ -71,5 +75,6 @@ echo "* Ensure bootstrap will run next time"
 rm -rf /var/lib/bootstrap
 
 echo "* Cleaning up."
+apt-get -y purge git make gcc g++ build-essential
 rm -rf /usr/local/var/tmp/*
 history -c

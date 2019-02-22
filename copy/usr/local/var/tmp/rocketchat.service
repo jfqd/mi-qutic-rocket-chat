@@ -1,5 +1,6 @@
 [Unit]
 Description=RocketChat
+
 [Service]
 ExecStart=/usr/local/bin/node /var/www/rocket/main.js
 Restart=always
@@ -12,5 +13,6 @@ Environment=MONGO_URL=mongodb://127.0.0.1:27017/rocket
 Environment=ROOT_URL=https://rocket-chat.example.com/
 Environment=PORT=3000
 Environment=MAIL_URL="smtp://noreply%40example.com:password@mail.example.com:587"
+
 [Install]
 WantedBy=multi-user.target

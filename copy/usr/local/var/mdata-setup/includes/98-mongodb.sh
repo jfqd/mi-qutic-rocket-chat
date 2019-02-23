@@ -5,7 +5,8 @@ if /native/usr/sbin/mdata-get mongodb_url 1>/dev/null 2>&1; then
   sed -i \
        -e "s#Environment=MONGO_URL=mongodb://127.0.0.1:27017/rocket#Environment=MONGO_URL=${MONGO_URL}#" \
        /etc/systemd/system/rocketchat.service
+  systemctl stop mongodb || true
 else
-  systemctl start mongodb
+  systemctl start mongodb || true
   echo 'rs.initiate()' | mongo
 fi

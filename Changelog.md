@@ -1,5 +1,9 @@
 # Changelog
 
+## 20180404.4
+
+* use latest Rocket.Chat 0.74.3
+
 ## 20180404.3
 
 * start all services

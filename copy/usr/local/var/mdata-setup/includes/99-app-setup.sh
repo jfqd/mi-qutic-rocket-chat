@@ -17,7 +17,11 @@ if /native/usr/sbin/mdata-get rocketchat_domain 1>/dev/null 2>&1; then
   
 fi
 
+# start service
 systemctl daemon-reload
 systemctl enable rocketchat.service
 systemctl start rocketchat
+
 # journalctl -f -u rocketchat
+# systemctl status rocketchat
+# systemctl stop rocketchat

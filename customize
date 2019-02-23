@@ -6,6 +6,8 @@ export LC_ALL=en_US.utf8
 export LANGUAGE=en_US.utf8
 export LANG=en_US.utf8
 
+ROCKET_CHAT_VERSION="0.74.3"
+
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 MUNIN_PLUGINS="
 ps_node
@@ -61,7 +63,7 @@ addgroup rocket
 adduser --disabled-password --system --quiet --home /var/www/rocket rocket
 adduser rocket rocket
 mkdir -p /var/www/rocket
-curl -L -s https://releases.rocket.chat/latest/download | tar xz -C /var/www/rocket --strip-components=1
+curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}.tgz" | tar xz -C /var/www/rocket --strip-components=1
 cd /var/www/rocket
 # set +o errexit
 (cd programs/server && npm install --unsafe-perm)

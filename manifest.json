@@ -1,7 +1,7 @@
 {
   "name":         "qutic-rocket-chat",
-  "version":      "20180404.4",
-  "description":  "qutic rocket-chat image",
+  "version":      "20180404.5",
+  "description":  "qutic rocket-chat 2.0.0 image",
   "organization": "qutic development",
   "brand":        "Instance",
   "homepage":     "https://github.com/jfqd/mi-qutic-rocket-chat",

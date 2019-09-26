@@ -58,6 +58,13 @@ n 8.11.4
 # echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 # sudo apt-get update && sudo apt-get install yarn
 
+echo "* Setup mongodb"
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+apt -qq install mongodb-org
+sed -i "s/^#  engine:/  engine: mmapv1/" /etc/mongod.conf
+sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf
+
 echo "* Setup rocket-chat"
 addgroup rocket
 adduser --disabled-password --system --quiet --home /var/www/rocket rocket

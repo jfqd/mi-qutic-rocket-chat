@@ -9,7 +9,8 @@ StandardError=syslog
 SyslogIdentifier=RocketChat
 User=rocket
 Group=rocket
-Environment=MONGO_URL=mongodb://127.0.0.1:27017/rocket
+Environment=MONGO_URL=mongodb://127.0.0.1:27017/rocket?replicaSet=rs01
+MONGO_OPLOG_URL=mongodb://127.0.0.1:27017/local?replicaSet=rs01
 Environment=ROOT_URL=https://rocket-chat.example.com/
 Environment=PORT=3000
 Environment=MAIL_URL="smtp://noreply%40example.com:password@mail.example.com:587"

@@ -3,6 +3,7 @@
 ## 20180404.6
 
 * setup monodump backup to nextcloud
+* add mongodump re-import option
 
 ## 20180404.5
 

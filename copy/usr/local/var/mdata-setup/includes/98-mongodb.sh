@@ -13,25 +13,35 @@ else
   systemctl enable mongod || true
   systemctl start mongod || true
   mongo --eval "printjson(rs.initiate())"
-fi
 
-# setup monodump backup to nextcloud
-if /native/usr/sbin/mdata-get nextcloud_url 1>/dev/null 2>&1; then
-  NEXTCLOUD_URL=$(/native/usr/sbin/mdata-get nextcloud_url)
-  NEXTCLOUD_USR=$(/native/usr/sbin/mdata-get nextcloud_user)
-  NEXTCLOUD_PWD=$(/native/usr/sbin/mdata-get nextcloud_password)
+  # mongodump re-import option
+  if /native/usr/sbin/mdata-get mongodump_url 1>/dev/null 2>&1; then
+    MONGODUMP_URL=$(/native/usr/sbin/mdata-get mongodump_url)
+    mkdir -p /var/local/mongodump
+    curl -s -L -o /var/local/mongodump/mongodump.tar.gz "$MONGODUMP_URL"
+    tar xf /var/local/mongodump/mongodump.tar.gz
+    mongorestore /var/local/mongodump/*.mongodump
+    rm -rf /var/local/mongodump/*.mongodump
+  fi
 
-  sed -i \
-      -e "s#https://nextcloud.examle.com#${NEXTCLOUD_URL}#" \
-      -e "s#nextcloud-username#${NEXTCLOUD_USR}#" \
-      -e "s#nextcloud-password#${NEXTCLOUD_PWD}#" \
-      /usr/local/bin/mongo-backup
-  
-  cat >> /etc/cron.d/mongo-backup << EOF
+  # setup monodump backup to nextcloud
+  if /native/usr/sbin/mdata-get nextcloud_url 1>/dev/null 2>&1; then
+    NEXTCLOUD_URL=$(/native/usr/sbin/mdata-get nextcloud_url)
+    NEXTCLOUD_USR=$(/native/usr/sbin/mdata-get nextcloud_user)
+    NEXTCLOUD_PWD=$(/native/usr/sbin/mdata-get nextcloud_password)
+
+    sed -i \
+        -e "s#https://nextcloud.examle.com#${NEXTCLOUD_URL}#" \
+        -e "s#nextcloud-username#${NEXTCLOUD_USR}#" \
+        -e "s#nextcloud-password#${NEXTCLOUD_PWD}#" \
+        /usr/local/bin/mongo-backup
+
+    cat >> /etc/cron.d/mongo-backup << EOF
 MAILTO=root
 #
 50 23 * * *     root   /usr/local/bin/mongo-backup
 # END
 EOF
 
+  fi
 fi

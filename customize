@@ -87,4 +87,5 @@ rm -rf /var/lib/bootstrap
 echo "* Cleaning up."
 apt-get -y purge git make gcc g++ build-essential
 rm -rf /usr/local/var/tmp/*
+rm /root/customize
 history -c

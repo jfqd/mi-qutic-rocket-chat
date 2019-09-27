@@ -12,6 +12,7 @@ if /native/usr/sbin/mdata-get mongodb_url 1>/dev/null 2>&1; then
 else
   systemctl enable mongod || true
   systemctl start mongod || true
+  sleep 10
   mongo --eval "printjson(rs.initiate())"
 
   # mongodump re-import option
@@ -20,8 +21,8 @@ else
     mkdir -p /var/local/mongodump
     curl -s -L -o /var/local/mongodump/mongodump.tar.gz "$MONGODUMP_URL"
     tar xf /var/local/mongodump/mongodump.tar.gz
-    mongorestore /var/local/mongodump/*.mongodump
-    rm -rf /var/local/mongodump/*.mongodump
+    mongorestore *.mongodump || true
+    rm -rf *.mongodump || true
   fi
 
   # setup monodump backup to nextcloud

@@ -26,4 +26,12 @@ if /native/usr/sbin/mdata-get nextcloud_url 1>/dev/null 2>&1; then
       -e "s#nextcloud-username#${NEXTCLOUD_USR}#" \
       -e "s#nextcloud-password#${NEXTCLOUD_PWD}#" \
       /usr/local/bin/mongo-backup
+  
+  cat >> /etc/cron.d/mongo-backup << EOF
+MAILTO=root
+#
+50 23 * * *     root   /usr/local/bin/mongo-backup
+# END
+EOF
+
 fi

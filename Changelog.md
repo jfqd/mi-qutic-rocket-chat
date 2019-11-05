@@ -1,5 +1,9 @@
 # Changelog
 
+## 20180404.7
+
+* use latest Rocket.Chat 2.2.0
+
 ## 20180404.6
 
 * setup monodump backup to nextcloud

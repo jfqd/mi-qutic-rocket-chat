@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-NEXTCLOUD="https://nextcloud.examle.com"
+NEXTCLOUD="https://nextcloud.example.com"
 FOLDER="Rocket.Chat"
 USER="nextcloud-username"
 PASSWORD="nextcloud-password"

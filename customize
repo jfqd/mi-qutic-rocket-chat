@@ -66,6 +66,15 @@ apt-get -y install mongodb-org
 sed -i "s/^#  engine:/  engine: mmapv1/" /etc/mongod.conf
 sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf
 
+echo "* Setup mongodb nrpe plugin"
+curl -s -LO https://download.qutic.com/src/nagios/nagios-plugin-mongodb-master.zip
+unzip nagios-plugin-mongodb-master.zip
+rm nagios-plugin-mongodb-master.zip
+# cd nagios-plugin-mongodb-master
+# pip install -r requirements || true
+mv nagios-plugin-mongodb-master/check_mongodb.py /usr/lib/nagios/plugins/check_mongodb
+rm -rf nagios-plugin-mongodb-master
+
 echo "* Setup rocket-chat"
 addgroup rocket
 adduser --disabled-password --system --quiet --home /var/www/rocket --shell /bin/bash rocket

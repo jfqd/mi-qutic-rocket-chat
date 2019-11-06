@@ -21,7 +21,8 @@ else
     mkdir -p /var/local/mongodump
     curl -s -L -o /var/local/mongodump/mongodump.tar.gz "$MONGODUMP_URL"
     tar xf /var/local/mongodump/mongodump.tar.gz
-    mongorestore /var/local/mongodump/*.mongodump || true
+    # use drop on existing databases
+    mongorestore --drop /var/local/mongodump/*.mongodump || true
     rm -rf *.mongodump || true
   fi
 

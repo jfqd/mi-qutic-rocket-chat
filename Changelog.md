@@ -1,5 +1,12 @@
 # Changelog
 
+## 20180404.8
+
+* add rocketchat-database option
+* increase nproc for mongod
+* setup mongodb nrpe plugin
+* drop exising databases before mongorestore
+
 ## 20180404.7
 
 * use latest Rocket.Chat 2.2.0

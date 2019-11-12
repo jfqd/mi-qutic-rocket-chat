@@ -22,3 +22,4 @@ make
 dirmngr
 # nrpe mongod requirement
 unzip
+fontconfig

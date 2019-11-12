@@ -14,7 +14,13 @@ if /native/usr/sbin/mdata-get rocketchat_domain 1>/dev/null 2>&1; then
   sed -i \
        -e "s#ROOT_URL=https://rocket-chat.example.com/#ROOT_URL=${RC_DOMAIN}#" \
        /etc/systemd/system/rocketchat.service
-  
+fi
+
+if /native/usr/sbin/mdata-get rocketchat_database 1>/dev/null 2>&1; then
+  RC_DATABASE=$(/native/usr/sbin/mdata-get rocketchat_database)
+  sed -i \
+       -e "s:27017/rocket?replicaSet=rs01#:27017/${RC_DATABASE}?replicaSet=rs01#" \
+       /etc/systemd/system/rocketchat.service
 fi
 
 # start service

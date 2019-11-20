@@ -20,7 +20,7 @@ else
     MONGODUMP_URL=$(/native/usr/sbin/mdata-get mongodump_url)
     mkdir -p /var/local/mongodump
     curl -s -L -o /var/local/mongodump/mongodump.tar.gz "$MONGODUMP_URL"
-    tar xf /var/local/mongodump/mongodump.tar.gz
+    ( cd /var/local/mongodump/ ; tar xf /var/local/mongodump/mongodump.tar.gz )
     # use drop on existing databases
     mongorestore --drop /var/local/mongodump/*.mongodump || true
     rm -rf *.mongodump || true

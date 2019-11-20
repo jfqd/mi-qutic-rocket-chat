@@ -33,7 +33,7 @@ else
     NEXTCLOUD_PWD=$(/native/usr/sbin/mdata-get nextcloud_password)
 
     sed -i \
-        -e "s#https://nextcloud.examle.com#${NEXTCLOUD_URL}#" \
+        -e "s#NEXTCLOUD='https://nextcloud.example.com'#NEXTCLOUD='${NEXTCLOUD_URL}#'" \
         -e "s#nextcloud-username#${NEXTCLOUD_USR}#" \
         -e "s#nextcloud-password#${NEXTCLOUD_PWD}#" \
         /usr/local/bin/mongo-backup

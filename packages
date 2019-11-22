@@ -1,6 +1,7 @@
 # rocket-chat dependencies
 net-tools
 nginx
+libwww-perl
 curl
 graphicsmagick
 screen

@@ -10,12 +10,20 @@ ROCKET_CHAT_VERSION="2.2.0"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 MUNIN_PLUGINS="
-ps_node
-ps_nginx
+  ps_node
+  ps_nginx
+  nginx_status
+  nginx_request
 "
 
 echo "* Activate munin plugins"
 /usr/local/bin/munin-node-plugins ${MUNIN_PLUGINS}
+
+echo "* Config nginx munin plugins"
+cat >> /etc/munin/plugin-conf.d/nginx << EOF
+[nginx*]
+env.url http://127.0.0.1/nginx_status
+EOF
 
 echo "* Setup mongodb service"
 mv /usr/local/var/tmp/mongodb.service /etc/systemd/system/multi-user.target.wants/mongodb.service

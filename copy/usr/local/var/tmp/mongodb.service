@@ -2,6 +2,8 @@
 Description=An object/document-oriented database
 Documentation=man:mongod(1)
 After=network.target
+StartLimitIntervalSec=500
+StartLimitBurst=5
 
 [Service]
 User=mongodb
@@ -14,5 +16,8 @@ Environment=SOCKETPATH=/run/mongodb
 ExecStart=/usr/bin/mongod --unixSocketPrefix=${SOCKETPATH} --config ${CONF} $DAEMON_OPTS
 LimitNOFILE=64000
 LimitFSIZE=infinity
+Restart=on-failure
+RestartSec=15s
+
 [Install]
 WantedBy=multi-user.target

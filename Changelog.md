@@ -1,5 +1,10 @@
 # Changelog
 
+## 20180404.9
+
+* use latest Rocket.Chat 3.0.2
+* use latest base image
+
 ## 20180404.8
 
 * add rocketchat-database option

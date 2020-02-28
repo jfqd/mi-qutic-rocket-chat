@@ -9,38 +9,9 @@ export LANG=en_US.utf8
 ROCKET_CHAT_VERSION="3.0.2"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-MUNIN_PLUGINS="
-  ps_node
-  ps_nginx
-  nginx_status
-  nginx_request
-"
-
-echo "* Activate munin plugins"
-/usr/local/bin/munin-node-plugins ${MUNIN_PLUGINS}
-
-echo "* Config nginx munin plugins"
-cat >> /etc/munin/plugin-conf.d/nginx << EOF
-[nginx*]
-env.url http://127.0.0.1/nginx_status
-EOF
 
 echo "* Setup mongodb service"
 mv /usr/local/var/tmp/mongodb.service /etc/systemd/system/multi-user.target.wants/mongodb.service
-
-echo "* Setup mongodb plugins"
-pip install pymongo
-git clone https://github.com/comerford/mongo-munin.git /tmp/mongo-munin
-cp /tmp/mongo-munin/mongo_* /usr/share/munin/plugins
-rm -rf /tmp/mongo-munin
-ln -sf /usr/share/munin/plugins/mongo_btree /etc/munin/plugins/mongo_btree
-ln -sf /usr/share/munin/plugins/mongo_conn /etc/munin/plugins/mongo_conn
-ln -sf /usr/share/munin/plugins/mongo_lock /etc/munin/plugins/mongo_lock
-ln -sf /usr/share/munin/plugins/mongo_mem /etc/munin/plugins/mongo_mem
-ln -sf /usr/share/munin/plugins/mongo_ops /etc/munin/plugins/mongo_ops
-ln -sf /usr/share/munin/plugins/mongo_docs /etc/munin/plugins/mongo_docs
-chmod +x /usr/share/munin/plugins/mongo_*
-service munin-node restart
 
 echo "* Get latest"
 apt-get -y update
@@ -73,15 +44,6 @@ apt-get -y update
 apt-get -y install mongodb-org
 sed -i "s/^#  engine:/  engine: mmapv1/" /etc/mongod.conf
 sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf
-
-echo "* Setup mongodb nrpe plugin"
-curl -s -LO https://download.qutic.com/src/nagios/nagios-plugin-mongodb-master.zip
-unzip nagios-plugin-mongodb-master.zip
-rm nagios-plugin-mongodb-master.zip
-# cd nagios-plugin-mongodb-master
-# pip install -r requirements || true
-mv nagios-plugin-mongodb-master/check_mongodb.py /usr/lib/nagios/plugins/check_mongodb
-rm -rf nagios-plugin-mongodb-master
 
 echo "* Setup rocket-chat"
 addgroup rocket

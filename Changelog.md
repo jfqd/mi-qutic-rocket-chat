@@ -4,6 +4,7 @@
 
 * use latest Rocket.Chat 3.0.2
 * use latest base image
+* remove munin and nagios
 
 ## 20180404.8
 

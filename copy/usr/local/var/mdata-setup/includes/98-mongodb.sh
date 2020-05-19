@@ -7,6 +7,7 @@ if /native/usr/sbin/mdata-get mongodb_url 1>/dev/null 2>&1; then
       /etc/systemd/system/rocketchat.service
   systemctl stop mongod || true
 else
+  # IMPORTANT: service name is: mongod
   systemctl enable mongod || true
   systemctl start mongod || true
   sleep 10
@@ -30,7 +31,7 @@ else
     NEXTCLOUD_PWD=$(/native/usr/sbin/mdata-get nextcloud_password)
 
     sed -i \
-        -e "s#NEXTCLOUD='https://nextcloud.example.com'#NEXTCLOUD='${NEXTCLOUD_URL}#'" \
+        -e "s#NEXTCLOUD='https://nextcloud.example.com'#NEXTCLOUD='${NEXTCLOUD_URL}'#" \
         -e "s#nextcloud-username#${NEXTCLOUD_USR}#" \
         -e "s#nextcloud-password#${NEXTCLOUD_PWD}#" \
         /usr/local/bin/mongo-backup

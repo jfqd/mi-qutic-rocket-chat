@@ -10,9 +10,6 @@ ROCKET_CHAT_VERSION="3.0.2"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-echo "* Setup mongodb service"
-mv /usr/local/var/tmp/mongodb.service /etc/systemd/system/multi-user.target.wants/mongodb.service
-
 echo "* Get latest"
 apt-get -y update
 apt-get -y upgrade

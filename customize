@@ -6,7 +6,7 @@ export LC_ALL=en_US.utf8
 export LANGUAGE=en_US.utf8
 export LANG=en_US.utf8
 
-ROCKET_CHAT_VERSION="3.0.2"
+ROCKET_CHAT_VERSION="3.2.2"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -28,7 +28,7 @@ echo "* Setup node"
 /usr/local/var/tmp/setup_6.x
 apt -qq install nodejs
 npm install -g n
-n 8.11.4
+n 12.16.1
 
 # curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 # echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list

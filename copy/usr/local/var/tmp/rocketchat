@@ -11,13 +11,14 @@ listen 80;
 }
 # HTTPS Server
 server {
-  listen 443;
-  server_name localhost;
-  error_log /var/log/nginx/rocketchat.error.log;
-  ssl on;
-  ssl_certificate /etc/nginx/ssl/rocketchat.crt;
-  ssl_certificate_key /etc/nginx/ssl/rocketchat.key;
-  ssl_protocols TLSv1.1 TLSv1.2;
+  listen               443;
+  server_name          localhost;
+  error_log            /var/log/nginx/rocketchat.error.log;
+  ssl                  on;
+  ssl_certificate      /etc/nginx/ssl/rocketchat.crt;
+  ssl_certificate_key  /etc/nginx/ssl/rocketchat.key;
+  ssl_protocols        TLSv1.1 TLSv1.2;
+  client_max_body_size 10M;
   location / {
     proxy_pass http://backend;
     proxy_http_version 1.1;

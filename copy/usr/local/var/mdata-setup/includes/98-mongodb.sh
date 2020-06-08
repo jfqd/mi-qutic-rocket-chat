@@ -36,6 +36,8 @@ else
         -e "s#nextcloud-password#${NEXTCLOUD_PWD}#" \
         /usr/local/bin/mongo-backup
 
+    chmod 0750 /usr/local/bin/mongo-backup
+
     if [[ ! -e /etc/cron.d/mongo-backup ]]; then
       cat >> /etc/cron.d/mongo-backup << EOF
 MAILTO=root

@@ -1,5 +1,11 @@
 # Changelog
 
+## 20180404.11
+
+* use latest Rocket.Chat 3.5.1
+* add api-config option
+* increase max upload
+
 ## 20180404.10
 
 * use latest Rocket.Chat 3.2.2

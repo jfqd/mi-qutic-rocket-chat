@@ -1,7 +1,7 @@
 {
   "name":         "qutic-rocket-chat",
-  "version":      "20180404.10",
-  "description":  "qutic rocket-chat 3.2.2 image",
+  "version":      "20180404.11",
+  "description":  "qutic rocket-chat 3.5.1 image",
   "organization": "qutic development",
   "brand":        "Instance",
   "homepage":     "https://github.com/jfqd/mi-qutic-rocket-chat",
@@ -24,6 +24,7 @@
     "vfstab":                {"type": "text", "description": "nfs mountpoint for vfstab-file"},
     "rocketchat_domain":     {"type": "text", "description": "domain of the rocket.chat instance"},
     "rocketchat_database":   {"type": "text", "description": "only use this if the name of the rocket.chat database is different to rocket"},
+    "rocketchat_api":        {"type": "text", "description": "set to true if you want to use the rocket.chat api"},
     "nextcloud_url":         {"type": "text", "description": "url of a nextcloud instance for mongodump-backup. can only be used if mongodb_url is empty"},
     "nextcloud_user":        {"type": "text", "description": "user of a nextcloud instance for mongodump-backup. can only be used if mongodb_url is empty"},
     "nextcloud_password":    {"type": "text", "description": "password of a nextcloud instance for mongodump-backup. can only be used if mongodb_url is empty"},

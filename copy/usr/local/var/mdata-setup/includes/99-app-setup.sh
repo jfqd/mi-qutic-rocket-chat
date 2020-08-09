@@ -23,6 +23,12 @@ if /native/usr/sbin/mdata-get rocketchat_database 1>/dev/null 2>&1; then
        /etc/systemd/system/rocketchat.service
 fi
 
+if [[ $(/native/usr/sbin/mdata-get rocketchat_api) = "true" ]]; then
+  sed -i \
+       -e "s:#Environment=CREATE_TOKENS_FOR_USERS=true:Environment=CREATE_TOKENS_FOR_USERS=true:" \
+       /etc/systemd/system/rocketchat.service
+fi
+
 # start service
 systemctl daemon-reload
 systemctl enable rocketchat.service

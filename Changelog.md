@@ -1,5 +1,11 @@
 # Changelog
 
+
+## 20180404.12
+
+* use latest Rocket.Chat 3.6.0
+* add option to start more than one node instance
+
 ## 20180404.11
 
 * use latest Rocket.Chat 3.5.1

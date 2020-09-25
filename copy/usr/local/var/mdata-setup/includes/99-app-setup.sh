@@ -38,7 +38,7 @@ if [[ $(/native/usr/sbin/mdata-get rocketchat_instances) > 1 ]]; then
   # https://docs.rocket.chat/installation/manual-installation/multiple-instances-to-improve-performance
   cp /etc/systemd/system/rocketchat.service /etc/systemd/system/rocketchat@.service
   sed -i \
-      -e "s:Environment=PORT=3000:Environment=PORT=%I" \
+      -e "s:Environment=PORT=3000:Environment=PORT=%I:" \
       -e "s:WantedBy=multi-user.target:WantedBy=rocketchat.service:" \
       /etc/systemd/system/rocketchat@.service
   # start second instance

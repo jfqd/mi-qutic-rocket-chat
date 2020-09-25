@@ -1,5 +1,8 @@
 # Changelog
 
+## 20180404.13
+
+* use latest Rocket.Chat 3.6.3
 
 ## 20180404.12
 

@@ -52,6 +52,17 @@ if [[ $(/native/usr/sbin/mdata-get rocketchat_instances) > 1 ]]; then
   # TODO: maybe start more than two instances
 fi
 
+if /native/usr/sbin/mdata-get nextcloud_url 1>/dev/null 2>&1; then
+  echo "* Skip mongodb settings"
+else
+  # sleep two minute to ensure db was created
+  sleep 120
+  echo "* Enable prometheus node endpoint"
+  mongo --quiet --eval 'db.getSiblingDB("rocket"").rocketchat_settings.updateOne({ _id: "Prometheus_Enabled"},{ $set: {"value": true} });' || true
+  echo "* Disable update notification"
+  mongo --quiet --eval 'db.getSiblingDB("rocket"").rocketchat_settings.updateOne({ _id: "Update_EnableChecker"},{ $set: {"value": false} });' || true
+fi
+
 # journalctl -f -u rocketchat
 # systemctl status rocketchat
 # systemctl stop rocketchat

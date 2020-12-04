@@ -1,5 +1,11 @@
 # Changelog
 
+## 20180404.15
+
+* use latest Rocket.Chat 3.9.0
+* update Rocket.Chat settings
+* add uptodate script
+
 ## 20180404.14
 
 * use latest Rocket.Chat 3.7.1

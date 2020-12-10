@@ -28,6 +28,7 @@
     "rocketchat_database":   {"type": "text", "description": "only use this if the name of the rocket.chat database is different to rocket"},
     "rocketchat_api":        {"type": "text", "description": "set to true if you want to use the rocket.chat api"},
     "rocketchat_instances":  {"type": "text", "description": "default is 1. Set to 2 for two running node instances"},
+    "hubot_password":        {"type": "text", "description": "password of the hubot user"},
     "nextcloud_url":         {"type": "text", "description": "url of a nextcloud instance for mongodump-backup. can only be used if mongodb_url is empty"},
     "nextcloud_user":        {"type": "text", "description": "user of a nextcloud instance for mongodump-backup. can only be used if mongodb_url is empty"},
     "nextcloud_password":    {"type": "text", "description": "password of a nextcloud instance for mongodump-backup. can only be used if mongodb_url is empty"},

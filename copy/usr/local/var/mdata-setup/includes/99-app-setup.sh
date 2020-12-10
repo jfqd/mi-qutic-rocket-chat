@@ -52,15 +52,31 @@ if [[ $(/native/usr/sbin/mdata-get rocketchat_instances) > 1 ]]; then
   # TODO: maybe start more than two instances
 fi
 
-if /native/usr/sbin/mdata-get nextcloud_url 1>/dev/null 2>&1; then
+if /native/usr/sbin/mdata-get mongodb_url 1>/dev/null 2>&1; then
   echo "* Skip mongodb settings"
 else
   # sleep two minute to ensure db was created
   sleep 120
   echo "* Enable prometheus node endpoint"
-  mongo --quiet --eval 'db.getSiblingDB("rocket"").rocketchat_settings.updateOne({ _id: "Prometheus_Enabled"},{ $set: {"value": true} });' || true
+  mongo --quiet --eval 'db.getSiblingDB("rocket").rocketchat_settings.updateOne({ _id: "Prometheus_Enabled"},{ $set: {"value": true} });' || true
   echo "* Disable update notification"
-  mongo --quiet --eval 'db.getSiblingDB("rocket"").rocketchat_settings.updateOne({ _id: "Update_EnableChecker"},{ $set: {"value": false} });' || true
+  mongo --quiet --eval 'db.getSiblingDB("rocket").rocketchat_settings.updateOne({ _id: "Update_EnableChecker"},{ $set: {"value": false} });' || true
+fi
+
+if /native/usr/sbin/mdata-get hubot_password 1>/dev/null 2>&1; then
+  # todo create hubot user and room in rocketchat
+  # mongo --quiet --eval 'db.getSiblingDB("rocket").tbd' || true
+  echo "* Enable hubot"
+  RC_DOMAIN=$(/native/usr/sbin/mdata-get rocketchat_domain)
+  HUBOT_PWD=$(/native/usr/sbin/mdata-get hubot_password)
+  sed -i \
+      -e "s:Environment=ROCKETCHAT_URL=myserver.com:Environment=ROCKETCHAT_URL=${RC_DOMAIN}:" \
+      -e "s:Environment=ROCKETCHAT_PASSWORD=mypassword:Environment=ROCKETCHAT_PASSWORD=${HUBOT_PWD}:" \
+      /etc/systemd/system/rocketchat.service
+  # start hubot
+  systemctl daemon-reload
+  systemctl enable hubot.service || true
+  systemctl start hubot || true
 fi
 
 # journalctl -f -u rocketchat

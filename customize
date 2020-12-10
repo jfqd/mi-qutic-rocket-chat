@@ -54,6 +54,9 @@ cd /var/www/rocket
 # set -o errexit
 chown -R rocket:rocket /var/www/rocket*
 
+echo "* Setup rocket-chat service"
+cp /usr/local/var/tmp/hubot_service /etc/systemd/system/hubot.service
+
 echo "* Setup hubot"
 addgroup hubot
 adduser --disabled-password --system --quiet --home /var/www/hubot --shell /bin/bash hubot
@@ -61,8 +64,8 @@ adduser hubot hubot
 mkdir -p /var/www/hubot
 su - hubot -c "git clone https://github.com/RocketChat/hubot-rocketchat-boilerplate"
 su - hubot -c "cd hubot-rocketchat-boilerplate; npm install"
-
-echo "* Setup rocket-chat service"
+su - hubot -c "npm install --save hubot-wikipedia"
+su - hubot -c "sed -i 's/]/\"hubot-wikipedia\" ]/' hubot-rocketchat-boilerplate/external-scripts.json"
 cp /usr/local/var/tmp/rocketchat_service /etc/systemd/system/rocketchat.service
 
 echo "* Ensure bootstrap will run next time"

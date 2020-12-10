@@ -63,7 +63,7 @@ su - hubot -c "git clone https://github.com/RocketChat/hubot-rocketchat-boilerpl
 su - hubot -c "cd hubot-rocketchat-boilerplate; npm install"
 
 echo "* Setup rocket-chat service"
-cp /usr/local/var/tmp/rocketchat.service /etc/systemd/system/rocketchat.service
+cp /usr/local/var/tmp/rocketchat_service /etc/systemd/system/rocketchat.service
 
 echo "* Ensure bootstrap will run next time"
 rm -rf /var/lib/bootstrap

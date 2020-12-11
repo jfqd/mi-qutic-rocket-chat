@@ -55,7 +55,7 @@ cd /var/www/rocket
 chown -R rocket:rocket /var/www/rocket*
 
 echo "* Setup rocket-chat service"
-cp /usr/local/var/tmp/hubot_service /etc/systemd/system/hubot.service
+cp /usr/local/var/tmp/rocketchat_service /etc/systemd/system/rocketchat.service
 
 echo "* Setup hubot"
 addgroup hubot
@@ -67,7 +67,7 @@ su - hubot -c "cd hubot-rocketchat-boilerplate; npm install"
 su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-rundeck"
 su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-rememberto"
 cp /usr/local/var/tmp/external-scripts.json /var/www/hubot/hubot-rocketchat-boilerplate/external-scripts.json
-cp /usr/local/var/tmp/rocketchat_service /etc/systemd/system/rocketchat.service
+cp /usr/local/var/tmp/hubot_service /etc/systemd/system/hubot.service
 
 echo "* Ensure bootstrap will run next time"
 rm -rf /var/lib/bootstrap

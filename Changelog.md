@@ -1,5 +1,10 @@
 # Changelog
 
+## 20180404.16
+
+* use latest Rocket.Chat 3.9.1
+* Add hubot option
+
 ## 20180404.15
 
 * use latest Rocket.Chat 3.9.0

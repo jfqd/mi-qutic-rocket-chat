@@ -64,8 +64,9 @@ adduser hubot hubot
 mkdir -p /var/www/hubot
 su - hubot -c "git clone https://github.com/RocketChat/hubot-rocketchat-boilerplate"
 su - hubot -c "cd hubot-rocketchat-boilerplate; npm install"
-su - hubot -c "npm install --save hubot-wikipedia"
-su - hubot -c "sed -i 's/]/\"hubot-wikipedia\" ]/' hubot-rocketchat-boilerplate/external-scripts.json"
+su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-rundeck"
+su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-rememberto"
+cp /usr/local/var/tmp/external-scripts.json /var/www/hubot/hubot-rocketchat-boilerplate/external-scripts.json
 cp /usr/local/var/tmp/rocketchat_service /etc/systemd/system/rocketchat.service
 
 echo "* Ensure bootstrap will run next time"

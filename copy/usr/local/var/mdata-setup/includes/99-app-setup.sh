@@ -71,9 +71,9 @@ if /native/usr/sbin/mdata-get hubot_password 1>/dev/null 2>&1; then
   RC_DOMAIN=$(/native/usr/sbin/mdata-get rocketchat_domain)
   HUBOT_PWD=$(/native/usr/sbin/mdata-get hubot_password)
   sed -i \
-      -e "s:Environment=ROCKETCHAT_URL=myserver.com:Environment=ROCKETCHAT_URL=${RC_DOMAIN}:" \
-      -e "s:Environment=ROCKETCHAT_PASSWORD=mypassword:Environment=ROCKETCHAT_PASSWORD=${HUBOT_PWD}:" \
-      /etc/systemd/system/rocketchat.service
+      -e "s|Environment=ROCKETCHAT_URL=myserver.com|Environment=ROCKETCHAT_URL=${RC_DOMAIN}|" \
+      -e "s|Environment=ROCKETCHAT_PASSWORD=mypassword|Environment=ROCKETCHAT_PASSWORD=${HUBOT_PWD}|" \
+      /etc/systemd/system/hubot.service
   # start hubot
   # chmod 0640 /etc/systemd/system/hubot.service
   systemctl daemon-reload

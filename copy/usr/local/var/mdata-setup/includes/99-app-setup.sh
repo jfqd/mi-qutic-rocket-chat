@@ -30,7 +30,7 @@ if [[ $(/native/usr/sbin/mdata-get rocketchat_api) = "true" ]]; then
 fi
 
 # start service
-chmod 0640 /etc/systemd/system/rocketchat.service
+# chmod 0640 /etc/systemd/system/rocketchat.service
 systemctl daemon-reload
 systemctl enable rocketchat.service
 systemctl start rocketchat
@@ -75,7 +75,7 @@ if /native/usr/sbin/mdata-get hubot_password 1>/dev/null 2>&1; then
       -e "s:Environment=ROCKETCHAT_PASSWORD=mypassword:Environment=ROCKETCHAT_PASSWORD=${HUBOT_PWD}:" \
       /etc/systemd/system/rocketchat.service
   # start hubot
-  chmod 0640 /etc/systemd/system/hubot.service
+  # chmod 0640 /etc/systemd/system/hubot.service
   systemctl daemon-reload
   systemctl enable hubot.service || true
   systemctl start hubot || true

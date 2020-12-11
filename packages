@@ -21,6 +21,6 @@ gcc
 g++
 make
 dirmngr
-# nrpe mongod requirement
 unzip
 fontconfig
+git

@@ -27,8 +27,8 @@ echo "* Setup node"
 # http://linuxbsdos.com/2017/06/26/how-to-install-node-js-lts-on-debian-9-stretch/
 /usr/local/var/tmp/setup_6.x
 apt -qq install nodejs
-npm install -g n
-n 12.16.1
+npm install -g inherits n
+n 12.18.4
 
 # curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 # echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list

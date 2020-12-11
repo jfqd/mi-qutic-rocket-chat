@@ -3,6 +3,7 @@
 ## 20180404.16
 
 * use latest Rocket.Chat 3.9.1
+* update node to 12.18.4
 * Add hubot option
 
 ## 20180404.15

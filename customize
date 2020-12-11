@@ -29,6 +29,9 @@ echo "* Setup node"
 apt -qq install nodejs
 npm install -g inherits n
 n 12.18.4
+# ensure that we are using the right node version
+export PATH="/usr/local/bin:$PATH"
+npm install npm@latest -g
 
 # curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 # echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
@@ -48,11 +51,8 @@ adduser --disabled-password --system --quiet --home /var/www/rocket --shell /bin
 adduser rocket rocket
 mkdir -p /var/www/rocket
 curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}.tgz" | tar xz -C /var/www/rocket --strip-components=1
-cd /var/www/rocket
-# set +o errexit
-(cd programs/server && npm install --unsafe-perm)
-# set -o errexit
-chown -R rocket:rocket /var/www/rocket*
+chown -R rocket:rocket /var/www/rocket
+su - rocket -c "cd programs/server && npm install"
 
 echo "* Setup rocket-chat service"
 cp /usr/local/var/tmp/rocketchat_service /etc/systemd/system/rocketchat.service

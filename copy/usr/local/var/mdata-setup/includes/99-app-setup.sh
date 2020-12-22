@@ -65,7 +65,7 @@ else
 fi
 
 if /native/usr/sbin/mdata-get hubot_password 1>/dev/null 2>&1; then
-  # todo create hubot user and room in rocketchat
+  # todo create hubot user and room in rocketchat if missing
   # mongo --quiet --eval 'db.getSiblingDB("rocket").tbd' || true
   echo "* Enable hubot"
   RC_DOMAIN=$(/native/usr/sbin/mdata-get rocketchat_domain)

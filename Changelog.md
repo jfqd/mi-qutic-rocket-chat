@@ -1,5 +1,10 @@
 # Changelog
 
+## 20180404.17
+
+* use latest Rocket.Chat 3.9.3
+* fixes XSS CVS
+
 ## 20180404.16
 
 * use latest Rocket.Chat 3.9.1

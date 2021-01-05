@@ -6,7 +6,7 @@ export LC_ALL=en_US.utf8
 export LANGUAGE=en_US.utf8
 export LANG=en_US.utf8
 
-ROCKET_CHAT_VERSION="3.9.3"
+ROCKET_CHAT_VERSION="3.9.4"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 

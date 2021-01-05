@@ -19,7 +19,7 @@ fi
 if /native/usr/sbin/mdata-get rocketchat_database 1>/dev/null 2>&1; then
   RC_DATABASE=$(/native/usr/sbin/mdata-get rocketchat_database)
   sed -i \
-      -e "s:27017/rocket?replicaSet=rs01#:27017/${RC_DATABASE}?replicaSet=rs01#" \
+      -e "s:27017/rocket?replicaSet=rs01:27017/${RC_DATABASE}?replicaSet=rs01:" \
       /etc/systemd/system/rocketchat.service
 fi
 

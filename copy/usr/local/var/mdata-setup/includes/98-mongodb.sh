@@ -21,7 +21,8 @@ else
     ( cd /var/local/mongodump/ ; tar xf /var/local/mongodump/mongodump.tar.gz )
     # use drop on existing databases
     mongorestore --drop /var/local/mongodump/*.mongodump || true
-    rm -rf *.mongodump || true
+    rm -rf /var/local/mongodump/*.mongodump || true
+    rm -rf /var/local/mongodump/*.tar.gz || true
   fi
 
   # setup monodump backup to nextcloud

@@ -86,5 +86,7 @@ EOF
 echo "* Cleaning up."
 apt-get -y purge git make gcc g++ build-essential
 rm -rf /usr/local/var/tmp/*
+rm /var/log/syslog || true
+touch /var/log/syslog || true
 rm /root/customize
 history -c

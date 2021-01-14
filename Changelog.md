@@ -1,5 +1,12 @@
 # Changelog
 
+## 20180404.19
+
+* use latest Rocket.Chat 3.10.3
+* fix typo in sed command
+* create a bash_history for convenience
+* remove dump- and log-files
+
 ## 20180404.18
 
 * use latest Rocket.Chat 3.9.4

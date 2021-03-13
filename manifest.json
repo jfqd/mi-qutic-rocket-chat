@@ -1,6 +1,6 @@
 {
   "name":         "qutic-rocket-chat",
-  "version":      "20180404.19",
+  "version":      "20180404.20",
   "description":  "qutic rocket-chat 3.12.1 image",
   "organization": "qutic development",
   "brand":        "Instance",

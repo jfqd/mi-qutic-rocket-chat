@@ -77,8 +77,16 @@ cp /usr/local/var/tmp/hubot_service /etc/systemd/system/hubot.service
 echo "* Ensure bootstrap will run next time"
 rm -rf /var/lib/bootstrap
 
+cat >> /root/.bash_history << EOF
+nano /etc/systemd/system/rocketchat.service
+systemctl daemon-reload
+service rocketchat restart
+EOF
+
 echo "* Cleaning up."
 apt-get -y purge git make gcc g++ build-essential
 rm -rf /usr/local/var/tmp/*
+rm /var/log/syslog || true
+touch /var/log/syslog || true
 rm /root/customize
 history -c

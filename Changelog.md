@@ -1,9 +1,16 @@
 # Changelog
 
-## 20180404.19
+## 20180404.20
 
 * use latest Rocket.Chat 3.12.1
 * use latest lx-base 20180404.5
+
+## 20180404.19
+
+* use latest Rocket.Chat 3.10.3
+* fix typo in sed command
+* create a bash_history for convenience
+* remove dump- and log-files
 
 ## 20180404.18
 

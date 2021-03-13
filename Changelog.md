@@ -1,5 +1,10 @@
 # Changelog
 
+## 20180404.19
+
+* use latest Rocket.Chat 3.12.1
+* use latest lx-base 20180404.5
+
 ## 20180404.18
 
 * use latest Rocket.Chat 3.9.4

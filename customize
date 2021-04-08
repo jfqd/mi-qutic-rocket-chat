@@ -52,7 +52,8 @@ adduser rocket rocket
 mkdir -p /var/www/rocket
 curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}.tgz" | tar xz -C /var/www/rocket --strip-components=1
 chown -R rocket:rocket /var/www/rocket
-su - rocket -c "cd programs/server && npm install"
+chmod 0644 /var/www/rocket/programs/server/*.json
+su - rocket -c "cd /var/www/rocket/programs/server && npm install"
 
 echo "* Setup rocket-chat service"
 cp /usr/local/var/tmp/rocketchat_service /etc/systemd/system/rocketchat.service
@@ -68,9 +69,9 @@ sed -i \
     -e "s|rocketchat/hubot-rocketchat|git+https://github.com/DeviaVir/hubot-rocketchat.git|" \
     /var/www/hubot/hubot-rocketchat-boilerplate/package.json
 # install dependencies
-su - hubot -c "cd hubot-rocketchat-boilerplate; npm install"
-su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-rundeck"
-su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-rememberto"
+su - hubot -c "cd hubot-rocketchat-boilerplate; npm install" || true
+# su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-rundeck" || true
+su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-rememberto" || true
 cp /usr/local/var/tmp/external-scripts.json /var/www/hubot/hubot-rocketchat-boilerplate/external-scripts.json
 cp /usr/local/var/tmp/hubot_service /etc/systemd/system/hubot.service
 

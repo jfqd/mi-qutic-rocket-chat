@@ -43,7 +43,7 @@ else
       cat >> /etc/cron.d/mongo-backup << EOF
 MAILTO=root
 #
-50 23 * * *     root   /usr/local/bin/mongo-backup
+50 23 * * *     root   /usr/local/bin/mongo-backup -s
 # END
 EOF
     fi

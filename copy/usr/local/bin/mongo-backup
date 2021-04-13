@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [[ $1 = "-s" ]]; then
+  sleep $[ ( ( $RANDOM % 20 ) + 1 ) * 60 ]
+fi
+
 NEXTCLOUD='https://nextcloud.example.com'
 FOLDER='Rocket.Chat'
 USER='nextcloud-username'

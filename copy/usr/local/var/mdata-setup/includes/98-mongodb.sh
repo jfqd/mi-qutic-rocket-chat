@@ -49,4 +49,12 @@ EOF
     fi
 
   fi
+  
+  cat >> /etc/cron.d/restart-rocketchat << EOF
+MAILTO=root
+#
+0 1 * * *     root   /bin/systemctl restart rocketchat
+# END
+EOF
+  
 fi

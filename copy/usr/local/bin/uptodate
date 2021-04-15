@@ -2,4 +2,4 @@
 apt update
 apt -y upgrade
 apt -y autoremove
-service rocketchat restart
+/bin/systemctl restart rocketchat

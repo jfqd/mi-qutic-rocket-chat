@@ -81,6 +81,13 @@ if /native/usr/sbin/mdata-get hubot_password 1>/dev/null 2>&1; then
   systemctl start hubot || true
 fi
 
+cat >> /etc/cron.d/restart-rocketchat << EOF
+MAILTO=root
+#
+0 1 * * *     root   /bin/systemctl restart rocketchat
+# END
+EOF
+
 # journalctl -f -u rocketchat
 # systemctl status rocketchat
 # systemctl stop rocketchat

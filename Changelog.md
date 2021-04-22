@@ -1,5 +1,10 @@
 # Changelog
 
+## 20180404.23
+
+* use latest Rocket.Chat 3.13.3
+* update node to 12.21.0
+
 ## 20180404.22
 
 * use latest Rocket.Chat 3.13.1

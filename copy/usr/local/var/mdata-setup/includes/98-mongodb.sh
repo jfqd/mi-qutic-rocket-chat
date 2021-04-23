@@ -1,10 +1,12 @@
 #!/bin/bash
 
 if /native/usr/sbin/mdata-get filesystem_restore 1>/dev/null 2>&1; then
-  while [[ ! -f /usr/local/var/tmp/restore_complete ]]; do
-    sleep 20
-  done
-  chown -R mongodb:mongodb /var/lib/mongodb
+  if [[ $(/native/usr/sbin/mdata-get filesystem_restore) = "true" ]]; then
+    while [[ ! -f /usr/local/var/tmp/restore_complete ]]; do
+      sleep 20
+    done
+    chown -R mongodb:mongodb /var/lib/mongodb
+  fi
 fi
 
 if /native/usr/sbin/mdata-get mongodb_url 1>/dev/null 2>&1; then

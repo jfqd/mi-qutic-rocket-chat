@@ -79,9 +79,9 @@ echo "* Ensure bootstrap will run next time"
 rm -rf /var/lib/bootstrap
 
 cat >> /root/.bash_history << EOF
-nano /etc/systemd/system/rocketchat.service
+systemctl edit --full rocketchat
 systemctl daemon-reload
-service rocketchat restart
+systemctl restart rocketchat
 EOF
 
 echo "* Cleaning up."

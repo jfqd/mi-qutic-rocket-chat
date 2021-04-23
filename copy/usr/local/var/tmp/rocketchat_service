@@ -11,6 +11,7 @@ StandardError=syslog
 SyslogIdentifier=RocketChat
 User=rocket
 Group=rocket
+#Environment=OVERWRITE_SETTING_Show_Setup_Wizard=completed
 Environment=MONGO_URL=mongodb://127.0.0.1:27017/rocket?replicaSet=rs01
 Environment=MONGO_OPLOG_URL=mongodb://127.0.0.1:27017/local?replicaSet=rs01
 Environment=ROOT_URL=https://rocket-chat.example.com/

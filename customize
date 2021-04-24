@@ -70,7 +70,7 @@ sed -i \
     /var/www/hubot/hubot-rocketchat-boilerplate/package.json
 # install dependencies
 su - hubot -c "cd hubot-rocketchat-boilerplate; npm install" || true
-su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save git@github.com:jfqd/hubot-rundeck.git"external-scripts.json || true
+su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save git@github.com:jfqd/hubot-rundeck.git" || true
 su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-rememberto" || true
 cp /usr/local/var/tmp/external-scripts.json /var/www/hubot/hubot-rocketchat-boilerplate/external-scripts.json
 cp /usr/local/var/tmp/hubot_service /etc/systemd/system/hubot.service

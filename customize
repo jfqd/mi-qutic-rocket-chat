@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 set -o errexit
 
@@ -32,9 +32,10 @@ sed -i "s/^#  engine:/  engine: mmapv1/" /etc/mongod.conf
 sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf
 
 echo "* Setup node"
+apt-get -y install npm
 npm install -g inherits n
-n 12.21.0
-npm install npm@latest -g
+/usr/local/bin/n 12.21.0
+# npm install npm@latest -g
 
 echo "* Setup rocket-chat"
 addgroup rocket

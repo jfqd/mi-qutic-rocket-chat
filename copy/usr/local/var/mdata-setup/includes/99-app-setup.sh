@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 if /native/usr/sbin/mdata-get mail_smarthost 1>/dev/null 2>&1; then
   MAIL_UID=$(/native/usr/sbin/mdata-get mail_auth_user)

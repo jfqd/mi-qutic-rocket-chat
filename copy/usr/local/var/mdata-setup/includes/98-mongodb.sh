@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 if /native/usr/sbin/mdata-get filesystem_restore 1>/dev/null 2>&1; then
   if [[ $(/native/usr/sbin/mdata-get filesystem_restore) = "true" ]]; then

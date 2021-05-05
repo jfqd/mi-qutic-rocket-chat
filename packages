@@ -9,7 +9,6 @@ screen
 # node requirement
 build-essential
 nodejs
-mongodb-org
 git
 # to build native node addons
 gcc

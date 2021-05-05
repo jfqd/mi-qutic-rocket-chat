@@ -15,12 +15,12 @@ BACKUP_FOLDER="/var/local/mongodump"
 BACKUP_FILE="${DATE}_rocketchat.mongodump"
 HOSTNAME="$(/bin/hostname)"
 
-/bin/mkdir -p "${BACKUP_FOLDER}"
+/usr/bin/mkdir -p "${BACKUP_FOLDER}"
 cd "${BACKUP_FOLDER}"
 
 /usr/bin/mongodump --quiet --out="${BACKUP_FOLDER}/${BACKUP_FILE}"
-/bin/tar cjf "${BACKUP_FILE}.tar.bz2" "./${BACKUP_FILE}"
-/bin/rm -rf "${BACKUP_FOLDER}/${BACKUP_FILE}"
+/usr/bin/tar cjf "${BACKUP_FILE}.tar.bz2" "./${BACKUP_FILE}"
+/usr/bin/rm -rf "${BACKUP_FOLDER}/${BACKUP_FILE}"
 /usr/bin/sha1sum "${BACKUP_FILE}.tar.bz2" > shasum
 
 /usr/bin/curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}" > /dev/null
@@ -30,6 +30,6 @@ cd "${BACKUP_FOLDER}"
 /usr/bin/curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/shasum" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/shasum"
 /usr/bin/curl -s -u "${USER}:${PASSWORD}" -X DELETE "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${YESTERDAY}" > /dev/null
 
-/bin/rm -rf "${BACKUP_FOLDER}/${YESTERDAY}_rocketchat.mongodump.tar.bz2" 2>/dev/null
+/usr/bin/rm -rf "${BACKUP_FOLDER}/${YESTERDAY}_rocketchat.mongodump.tar.bz2" 2>/dev/null
 
 exit 0

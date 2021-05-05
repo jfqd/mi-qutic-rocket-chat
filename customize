@@ -23,27 +23,18 @@ chmod 0500 /etc/nginx/ssl
 /usr/local/bin/ssl-selfsigned.sh -d /etc/nginx/ssl -f rocketchat
 # service nginx restart
 
-echo "* Setup node"
-# http://linuxbsdos.com/2017/06/26/how-to-install-node-js-lts-on-debian-9-stretch/
-/usr/local/var/tmp/setup_6.x
-apt -qq install nodejs
-npm install -g inherits n
-n 12.21.0
-# ensure that we are using the right node version
-export PATH="/usr/local/bin:$PATH"
-npm install npm@latest -g
-
-# curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-# echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-# sudo apt-get update && sudo apt-get install yarn
-
 echo "* Setup mongodb"
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4 || true
-echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list || true
+echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list || true
 apt-get -y update
 apt-get -y install mongodb-org
 sed -i "s/^#  engine:/  engine: mmapv1/" /etc/mongod.conf
 sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf
+
+echo "* Setup node"
+npm install -g inherits n
+n 12.21.0
+npm install npm@latest -g
 
 echo "* Setup rocket-chat"
 addgroup rocket

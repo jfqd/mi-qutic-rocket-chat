@@ -3,7 +3,6 @@
 ## 20210413.0
 
 * use latest Rocket.Chat 3.14.0
-* switch to python3
 * switch to ubuntu 20.04
 
 ## 20180404.23

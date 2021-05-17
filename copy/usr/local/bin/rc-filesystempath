@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 STORAGE=$(mongo --quiet --eval "db.getSiblingDB('rocket').rocketchat_settings.find({_id: 'FileUpload_Storage_Type'})" | sed -e 's/: [a-zA-Z]*(\([^\)]*\))/: \1/g' | jq ".value" | tr -d '"')
 
 if [[ "${STORAGE}" = "FileSystem" ]]; then

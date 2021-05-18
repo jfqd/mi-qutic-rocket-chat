@@ -103,7 +103,7 @@ mongo --quiet --eval 'db.getSiblingDB("rocket").rocketchat_settings.updateOne({ 
 mongo --quiet --eval 'db.getSiblingDB("rocket").rocketchat_settings.updateOne({ _id: "Jitsi_Enabled"},{ $set: {"value": true} });'
 
 EOF
-  chmod +x /usr/local/bin/setup-jitsi-meet
+  chmod 0700 /usr/local/bin/setup-jitsi-meet
   /usr/local/bin/setup-jitsi-meet || true
 fi
 

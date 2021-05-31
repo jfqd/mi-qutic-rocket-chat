@@ -1,5 +1,9 @@
 # Changelog
 
+## 20210413.2
+
+* use latest Rocket.Chat 3.15.0
+
 ## 20210413.1
 
 * use latest Rocket.Chat 3.14.4

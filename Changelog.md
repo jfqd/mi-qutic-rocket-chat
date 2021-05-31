@@ -1,5 +1,13 @@
 # Changelog
 
+## 20210413.1
+
+* use latest Rocket.Chat 3.14.4
+* split mongo-backup
+* backup external-upload 
+* script for rc-version
+* setup jitsi for Rocket.Chat
+
 ## 20210413.0
 
 * use latest Rocket.Chat 3.14.0

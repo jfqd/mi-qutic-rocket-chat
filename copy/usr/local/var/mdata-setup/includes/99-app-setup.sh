@@ -21,6 +21,8 @@ if /native/usr/sbin/mdata-get rocketchat_database 1>/dev/null 2>&1; then
   sed -i \
       -e "s:27017/rocket?replicaSet=rs01:27017/${RC_DATABASE}?replicaSet=rs01:" \
       /etc/systemd/system/rocketchat.service
+else
+  RC_DATABASE="rocket"
 fi
 
 if /native/usr/sbin/mdata-get rocketchat_api 1>/dev/null 2>&1; then
@@ -60,10 +62,15 @@ if /native/usr/sbin/mdata-get mongodb_url 1>/dev/null 2>&1; then
 else
   # sleep two minute to ensure db was created
   sleep 120
-  echo "* Enable prometheus node endpoint"
-  mongo --quiet --eval 'db.getSiblingDB("rocket").rocketchat_settings.updateOne({ _id: "Prometheus_Enabled"},{ $set: {"value": true} });' || true
-  echo "* Disable update notification"
-  mongo --quiet --eval 'db.getSiblingDB("rocket").rocketchat_settings.updateOne({ _id: "Update_EnableChecker"},{ $set: {"value": false} });' || true
+  cat >> /usr/local/bin/rc-config << EOF
+#!/usr/bin/bash
+echo "* Enable prometheus node endpoint"
+mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Prometheus_Enabled"},{ $set: {"value": true} });' || true
+echo "* Disable update notification"
+mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Update_EnableChecker"},{ $set: {"value": false} });' || true
+EOF
+  chmod +x /usr/local/bin/rc-config
+  /usr/local/bin/rc-config || true
 fi
 
 if /native/usr/sbin/mdata-get hubot_password 1>/dev/null 2>&1; then

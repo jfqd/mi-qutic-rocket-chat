@@ -49,6 +49,7 @@ if [[ $(/native/usr/sbin/mdata-get rocketchat_instances) > 1 ]]; then
   # start second instance
   systemctl daemon-reload
   systemctl start rocketchat@3001
+  systemctl enable rocketchat@3001
   # restart nginx
   sed -i \
       -e "s|  # server 127.0.0.1:3001;|  server 127.0.0.1:3001;|" \

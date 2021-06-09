@@ -17,7 +17,7 @@ server {
   listen               443 ssl;
   server_name          localhost;
   # access_log           /var/log/nginx/rocketchat.access.log main;
-  error_log            /var/log/nginx/rocketchat.error.log;
+  # error_log            /var/log/nginx/rocketchat.error.log;
   ssl_certificate      /etc/nginx/ssl/rocketchat.crt;
   ssl_certificate_key  /etc/nginx/ssl/rocketchat.key;
   ssl_protocols        TLSv1.1 TLSv1.2;

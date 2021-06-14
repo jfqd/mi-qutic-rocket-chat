@@ -11,11 +11,11 @@ FOLDER='Rocket.Chat'
 USER='nextcloud-username'
 PASSWORD='nextcloud-password'
 
-DATE=$(//usr/bin/date '+%Y%m%d')
+DATE=$(date '+%Y%m%d')
 YESTERDAY=$(TZ=GMT+24 date '+%Y%m%d')
 BACKUP_FOLDER="/var/local/mongodump"
 BACKUP_FILE="${DATE}_rocketchat.mongodump"
-HOSTNAME="$(/usr/bin/hostname)"
+HOSTNAME="$(hostname)"
 
 mkdir -p "${BACKUP_FOLDER}"
 cd "${BACKUP_FOLDER}"

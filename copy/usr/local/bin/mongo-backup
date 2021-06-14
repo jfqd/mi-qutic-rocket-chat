@@ -11,11 +11,11 @@ FOLDER='Rocket.Chat'
 USER='nextcloud-username'
 PASSWORD='nextcloud-password'
 
-DATE=$(/bin/date '+%Y%m%d')
+DATE=$(//usr/bin/date '+%Y%m%d')
 YESTERDAY=$(TZ=GMT+24 date '+%Y%m%d')
 BACKUP_FOLDER="/var/local/mongodump"
 BACKUP_FILE="${DATE}_rocketchat.mongodump"
-HOSTNAME="$(/bin/hostname)"
+HOSTNAME="$(/usr/bin/hostname)"
 
 mkdir -p "${BACKUP_FOLDER}"
 cd "${BACKUP_FOLDER}"
@@ -30,46 +30,69 @@ rm -rf "${BACKUP_FOLDER}/${BACKUP_FILE}"
 echo "*** Create shasum from backup.tar.bz2"
 sha1sum "${BACKUP_FILE}.tar.bz2" > shasum
 
-echo "*** Create Nextcloud folder structure"
-curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}" > /dev/null
-curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}" > /dev/null
-curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}" > /dev/null
-
-echo "*** Upload shasum file"
-curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/shasum" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/shasum"
-
-if [[ $(stat --printf="%s" "${BACKUP_FILE}.tar.bz2") -gt 524288000 ]]; then
-  mkdir "split"
-  (
-    cd "split"
-    echo "*** Split files before upload"
-    split -b 512m "../${BACKUP_FILE}.tar.bz2" "${BACKUP_FILE}_tar_bz2_"
-    for file in ./*; do
-      echo "*** Upload file: ${file}"
-      curl -s -u "${USER}:${PASSWORD}" -T "${file}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${file}"
-    done
-  )
-  echo "*** Cleanup split-folder"
-  rm -rf "split" || true
+if [[ -d /data ]]; then
+  echo "*** Create nfs folder structure"
+  mkdir -p "/data/${HOSTNAME}/mongodb"
+  echo "*** Copy file: ${BACKUP_FILE}.tar.bz2"
+  cat "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" | openssl enc -pbkdf2 - k "${HOSTNAME}" -nosalt > "/data/${HOSTNAME}/mongodb/${BACKUP_FILE}.tar.bz2"
+  cat "${BACKUP_FOLDER}/shasum" >> "/data/${HOSTNAME}/shasum"
 else
-  echo "*** Upload file: ${BACKUP_FILE}.tar.bz2"
-  curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_FILE}.tar.bz2"
+  echo "*** Create Nextcloud folder structure"
+  curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}" > /dev/null
+  curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}" > /dev/null
+  curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}" > /dev/null
+
+  echo "*** Upload shasum file"
+  curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/shasum" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/shasum"
+
+  if [[ $(stat --printf="%s" "${BACKUP_FILE}.tar.bz2") -gt 524288000 ]]; then
+    mkdir "split"
+    (
+      cd "split"
+      echo "*** Split files before upload"
+      split -b 512m "../${BACKUP_FILE}.tar.bz2" "${BACKUP_FILE}_tar_bz2_"
+      for file in ./*; do
+        echo "*** Upload file: ${file}"
+        curl -s -u "${USER}:${PASSWORD}" -T "${file}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${file}"
+      done
+    )
+    echo "*** Cleanup split-folder"
+    rm -rf "split" || true
+  else
+    echo "*** Upload file: ${BACKUP_FILE}.tar.bz2"
+    curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_FILE}.tar.bz2"
+  fi
 fi
 
 if [[ -d /var/www/rocket/upload ]]; then
-  echo "*** Create external rc-upload.tar.bz2"
   BACKUP_EXTERNAL_UPLOAD="${DATE}_rocketchat_upload.tar.bz2"
-  (
-    cd /var/www/rocket
-    tar cjf "${BACKUP_FOLDER}/${BACKUP_EXTERNAL_UPLOAD}" "./upload"
-  )
-  echo "*** Upload external rc-upload: ${BACKUP_EXTERNAL_UPLOAD}"
-  curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_EXTERNAL_UPLOAD}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_EXTERNAL_UPLOAD}"
-  rm -rf "${BACKUP_EXTERNAL_UPLOAD}" 2>/dev/null
+  echo "*** Create external rc-upload.tar.bz2"
+  if [[ -d /data ]]; then
+    (
+      mkdir -p "/data/${HOSTNAME}/upload"
+      cd /var/www/rocket
+      tar cjf "/data/${HOSTNAME}/upload/${BACKUP_EXTERNAL_UPLOAD}" "./upload"
+    )
+  else
+    # nextcloud update
+    (
+      cd /var/www/rocket
+      tar cjf "${BACKUP_FOLDER}/${BACKUP_EXTERNAL_UPLOAD}" "./upload"
+    )
+    echo "*** Upload external rc-upload: ${BACKUP_EXTERNAL_UPLOAD}"
+    curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_EXTERNAL_UPLOAD}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_EXTERNAL_UPLOAD}"
+    rm -rf "${BACKUP_EXTERNAL_UPLOAD}" 2>/dev/null
+  fi
 fi
 
 echo "*** Delete backup from yesterday"
 curl -s -u "${USER}:${PASSWORD}" -X DELETE "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${YESTERDAY}" > /dev/null
 rm -rf "${BACKUP_FOLDER}/${YESTERDAY}_rocketchat.mongodump.tar.bz2" 2>/dev/null
+
+if [[ -d /data ]]; then
+  echo "*** Cleanup old backups"
+  ls -1dt /data/${HOSTNAME}/mongodb/* | tail -n +8 | xargs rm -f || true
+  ls -1dt /data/${HOSTNAME}/upload/*  | tail -n +8 | xargs rm -f || true
+fi
 
 exit 0

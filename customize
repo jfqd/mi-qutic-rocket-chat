@@ -16,7 +16,6 @@ apt-get -y upgrade
 apt-get -y dist-upgrade
 
 echo "* Setup nginx"
-mv /usr/local/var/tmp/rocketchat /etc/nginx/sites-available/rocketchat
 ln -nfs /etc/nginx/sites-available/rocketchat /etc/nginx/sites-enabled/rocketchat
 mkdir -p /etc/nginx/ssl
 chmod 0500 /etc/nginx/ssl

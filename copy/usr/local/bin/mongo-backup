@@ -34,7 +34,7 @@ if [[ -d /data ]]; then
   echo "*** Create nfs folder structure"
   mkdir -p "/data/${HOSTNAME}/mongodb"
   echo "*** Copy file: ${BACKUP_FILE}.tar.bz2"
-  cat "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" | openssl enc -pbkdf2 - k "${HOSTNAME}" -nosalt > "/data/${HOSTNAME}/mongodb/${BACKUP_FILE}.tar.bz2"
+  cat "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" | openssl enc -pbkdf2 -k "${HOSTNAME}" -nosalt > "/data/${HOSTNAME}/mongodb/${BACKUP_FILE}.tar.bz2.enc"
   cat "${BACKUP_FOLDER}/shasum" >> "/data/${HOSTNAME}/shasum"
 else
   echo "*** Create Nextcloud folder structure"
@@ -91,8 +91,8 @@ rm -rf "${BACKUP_FOLDER}/${YESTERDAY}_rocketchat.mongodump.tar.bz2" 2>/dev/null
 
 if [[ -d /data ]]; then
   echo "*** Cleanup old backups"
-  ls -1dt /data/${HOSTNAME}/mongodb/* | tail -n +8 | xargs rm -f || true
-  ls -1dt /data/${HOSTNAME}/upload/*  | tail -n +8 | xargs rm -f || true
+  ls -1dt /data/${HOSTNAME}/mongodb/* | tail -n +8 | xargs rm -f
+  ls -1dt /data/${HOSTNAME}/upload/*  | tail -n +8 | xargs rm -f
 fi
 
 exit 0

@@ -11,6 +11,7 @@ ROCKET_CHAT_VERSION="3.15.0"
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 echo "* Get latest"
+export DEBIAN_FRONTEND=noninteractive
 apt-get -y update
 yes no | apt-get -y upgrade
 apt-get -y dist-upgrade

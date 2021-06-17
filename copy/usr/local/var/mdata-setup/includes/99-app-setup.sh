@@ -54,9 +54,11 @@ if [[ $(/native/usr/sbin/mdata-get rocketchat_instances) > 1 ]]; then
   sed -i \
       -e "s|  # server 127.0.0.1:3001;|  server 127.0.0.1:3001;|" \
       /etc/nginx/sites-available/rocketchat
-  systemctl restart nginx
   # TODO: maybe start more than two instances
 fi
+
+# Restart nginx to load config-changes
+systemctl restart nginx
 
 if /native/usr/sbin/mdata-get mongodb_url 1>/dev/null 2>&1; then
   echo "* Skip mongodb settings"

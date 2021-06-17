@@ -12,7 +12,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 echo "* Get latest"
 apt-get -y update
-apt-get -y upgrade
+yes no | apt-get -y upgrade
 apt-get -y dist-upgrade
 
 echo "* Setup nginx"
@@ -47,6 +47,7 @@ chmod 0644 /var/www/rocket/programs/server/*.json
 su - rocket -c "cd /var/www/rocket/programs/server && npm install"
 
 echo "* Setup rocket-chat service"
+cp /usr/local/var/tmp/nginx.conf /etc/nginx/nginx.conf
 cp /usr/local/var/tmp/rocketchat_service /etc/systemd/system/rocketchat.service
 
 echo "* Setup hubot"

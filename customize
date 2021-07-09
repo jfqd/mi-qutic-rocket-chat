@@ -21,6 +21,8 @@ ln -nfs /etc/nginx/sites-available/rocketchat /etc/nginx/sites-enabled/rocketcha
 mkdir -p /etc/nginx/ssl
 chmod 0500 /etc/nginx/ssl
 /usr/local/bin/ssl-selfsigned.sh -d /etc/nginx/ssl -f rocketchat
+mv /usr/local/var/tmp/nginx_service /usr/lib/systemd/system/nginx.service
+systemctl daemon-reload
 # service nginx restart
 
 echo "* Setup mongodb"
@@ -72,9 +74,12 @@ echo "* Ensure bootstrap will run next time"
 rm -rf /var/lib/bootstrap
 
 cat >> /root/.bash_history << EOF
+systemctl restart mongod
+systemctl status mongod
 systemctl edit --full rocketchat
 systemctl daemon-reload
 systemctl restart rocketchat
+systemctl status rocketchat
 EOF
 
 echo "* Cleaning up."

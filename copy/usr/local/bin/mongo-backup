@@ -53,14 +53,28 @@ else
       split -b 512m "../${BACKUP_FILE}.tar.bz2" "${BACKUP_FILE}_tar_bz2_"
       for file in ./*; do
         echo "*** Upload file: ${file}"
-        curl -s -u "${USER}:${PASSWORD}" -T "${file}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${file}"
+        status=1
+        counter=0
+        while [[ ! $status -eq 0 ]]; do
+          curl -s -u "${USER}:${PASSWORD}" -T "${file}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${file}"
+          status=$?
+          counter=$[counter + 1]
+          [[ $counter -gt 3 ]] && status=0
+        done
       done
     )
     echo "*** Cleanup split-folder"
     rm -rf "split" || true
   else
     echo "*** Upload file: ${BACKUP_FILE}.tar.bz2"
-    curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_FILE}.tar.bz2"
+    status=1
+    counter=0
+    while [[ ! $status -eq 0 ]]; do
+      curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_FILE}.tar.bz2"
+      status=$?
+      counter=$[counter + 1]
+      [[ $counter -gt 3 ]] && status=0
+    done
   fi
 fi
 
@@ -80,7 +94,14 @@ if [[ -d /var/www/rocket/upload ]]; then
       tar cjf "${BACKUP_FOLDER}/${BACKUP_EXTERNAL_UPLOAD}" "./upload"
     )
     echo "*** Upload external rc-upload: ${BACKUP_EXTERNAL_UPLOAD}"
-    curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_EXTERNAL_UPLOAD}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_EXTERNAL_UPLOAD}"
+    status=1
+    counter=0
+    while [[ ! $status -eq 0 ]]; do
+      curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_EXTERNAL_UPLOAD}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_EXTERNAL_UPLOAD}"
+      status=$?
+      counter=$[counter + 1]
+      [[ $counter -gt 3 ]] && status=0
+    done
     rm -rf "${BACKUP_EXTERNAL_UPLOAD}" 2>/dev/null
   fi
 fi

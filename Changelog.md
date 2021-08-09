@@ -1,8 +1,12 @@
 # Changelog
 
+## 20210413.5
+
+* use latest Rocket.Chat 3.17.0
+
 ## 20210413.4
 
-* use latest Rocket.Chat 3.16.4
+* use latest Rocket.Chat 3.17.0
 * add own nginx.service
 
 ## 20210413.3

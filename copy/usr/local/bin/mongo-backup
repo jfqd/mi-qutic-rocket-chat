@@ -53,13 +53,12 @@ else
       split -b 512m "../${BACKUP_FILE}.tar.bz2" "${BACKUP_FILE}_tar_bz2_"
       for file in ./*; do
         echo "*** Upload file: ${file}"
-        status=1
+        status=0
         counter=0
-        while [[ ! $status -eq 0 ]]; do
-          curl -s -u "${USER}:${PASSWORD}" -T "${file}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${file}"
-          status=$?
+        while [[ $status -ge 200 && $status -lt 300 ]]; do
+          status=$(curl -s -u "${USER}:${PASSWORD}" -T "${file}" -o /dev/null -w "%{http_code}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${file}")
           counter=$[counter + 1]
-          [[ $counter -gt 3 ]] && status=0
+          [[ $counter -gt 3 ]] && status=200
         done
       done
     )
@@ -67,13 +66,12 @@ else
     rm -rf "split" || true
   else
     echo "*** Upload file: ${BACKUP_FILE}.tar.bz2"
-    status=1
+    status=0
     counter=0
-    while [[ ! $status -eq 0 ]]; do
-      curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_FILE}.tar.bz2"
-      status=$?
+    while [[ $status -ge 200 && $status -lt 300 ]]; do
+      status=$(curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" -o /dev/null -w "%{http_code}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_FILE}.tar.bz2")
       counter=$[counter + 1]
-      [[ $counter -gt 3 ]] && status=0
+      [[ $counter -gt 3 ]] && status=200
     done
   fi
 fi
@@ -94,13 +92,12 @@ if [[ -d /var/www/rocket/upload ]]; then
       tar cjf "${BACKUP_FOLDER}/${BACKUP_EXTERNAL_UPLOAD}" "./upload"
     )
     echo "*** Upload external rc-upload: ${BACKUP_EXTERNAL_UPLOAD}"
-    status=1
+    status=0
     counter=0
-    while [[ ! $status -eq 0 ]]; do
-      curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_EXTERNAL_UPLOAD}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_EXTERNAL_UPLOAD}"
-      status=$?
+    while [[ $status -ge 200 && $status -lt 300 ]]; do
+      status=$(curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_EXTERNAL_UPLOAD}" -o /dev/null -w "%{http_code}" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_EXTERNAL_UPLOAD}")
       counter=$[counter + 1]
-      [[ $counter -gt 3 ]] && status=0
+      [[ $counter -gt 3 ]] && status=200
     done
     rm -rf "${BACKUP_EXTERNAL_UPLOAD}" 2>/dev/null
   fi

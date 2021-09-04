@@ -4,6 +4,7 @@
 
 * use latest Rocket.Chat 3.18.0
 * ensure proper backup-upload
+* fix zabbix update issue
 
 ## 20210413.5
 

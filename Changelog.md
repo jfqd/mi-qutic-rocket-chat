@@ -1,5 +1,10 @@
 # Changelog
 
+## 20210413.6
+
+* use latest Rocket.Chat 3.18.0
+* ensure proper backup-upload
+
 ## 20210413.5
 
 * use latest Rocket.Chat 3.17.0

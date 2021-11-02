@@ -1,5 +1,10 @@
 # Changelog
 
+## 20210413.8
+
+* use latest Rocket.Chat 4.1.0
+* migrate to mongodb version 4.2
+
 ## 20210413.7
 
 * use latest Rocket.Chat 4.0.1

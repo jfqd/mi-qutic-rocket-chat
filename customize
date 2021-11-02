@@ -27,7 +27,7 @@ systemctl daemon-reload
 
 echo "* Setup mongodb"
 curl -fsSL https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add - || true
-echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list
 apt-get -y update
 apt-get -y install mongodb-org
 sed -i "s/^#  engine:/  engine: mmapv1/" /etc/mongod.conf

@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
+if [[ -n $(grep "engine: mmapv1" /etc/mongod.conf) ]]; then
+  sed -i "s/  engine: mmapv1/  engine: wiredTiger/" /etc/mongod.conf
+fi
+
 if /native/usr/sbin/mdata-get filesystem_restore 1>/dev/null 2>&1; then
   if [[ $(/native/usr/sbin/mdata-get filesystem_restore) = "true" ]]; then
     while [[ ! -f /usr/local/var/tmp/restore_complete ]]; do

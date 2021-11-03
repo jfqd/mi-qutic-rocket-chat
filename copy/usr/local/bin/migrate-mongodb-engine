@@ -2,14 +2,22 @@
 
 # https://docs.rocket.chat/quick-start/installing-and-updating/manual-installation/mongodb-mmap-to-wiredtiger-migration
 
-systemctl stop rocketchat
-mkdir -p /var/local/mongodump/
-mongodump --archive=/var/local/mongodump/mmapdump.gz --gzip
-systemctl stop mongod
-rm -rf /var/lib/mongodb/*
-sed -i "s/  engine: mmapv1/  engine: wiredTiger/" /etc/mongod.conf
-systemctl start mongod
-mongo --eval 'rs.initiate()'
-mongorestore --drop --archive=/var/local/mongodump/mmapdump.gz --gzip --noIndexRestore
-mongo --eval 'db.repairDatabase()'
-systemctl start rocketchat
+if [[ -n $(grep "engine: mmapv1" /etc/mongod.conf) ]]; then
+
+  echo "start mongodb engine migration..."
+  systemctl stop rocketchat
+  mkdir -p /var/local/mongodump/
+  mongodump --archive=/var/local/mongodump/mmapdump.gz --gzip
+  systemctl stop mongod
+  rm -rf /var/lib/mongodb/*
+  sed -i "s/  engine: mmapv1/  engine: wiredTiger/" /etc/mongod.conf
+  systemctl start mongod
+  mongo --eval 'rs.initiate()'
+  mongorestore --drop --archive=/var/local/mongodump/mmapdump.gz --gzip --noIndexRestore
+  mongo --eval 'db.repairDatabase()'
+  systemctl start rocketchat
+  echo "...end of mongodb engine migration."
+
+else
+  echo "skip mongodb engine migration."
+fi

@@ -6,7 +6,7 @@ export LC_ALL=en_US.utf8
 export LANGUAGE=en_US.utf8
 export LANG=en_US.utf8
 
-ROCKET_CHAT_VERSION="4.1.0"
+ROCKET_CHAT_VERSION="4.2.0"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -30,7 +30,7 @@ curl -fsSL https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add - || 
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list
 apt-get -y update
 apt-get -y install mongodb-org
-sed -i "s/^#  engine:/  engine: mmapv1/" /etc/mongod.conf
+sed -i "s/^#  engine:/  engine: wiredTiger/" /etc/mongod.conf
 sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf
 
 echo "* Setup node"

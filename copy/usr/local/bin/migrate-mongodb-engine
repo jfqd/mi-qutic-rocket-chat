@@ -9,12 +9,16 @@ if [[ -n $(grep "engine: mmapv1" /etc/mongod.conf) ]]; then
   mkdir -p /var/local/mongodump/
   mongodump --archive=/var/local/mongodump/mmapdump.gz --gzip
   systemctl stop mongod
+  sleep 10
   rm -rf /var/lib/mongodb/*
   sed -i "s/  engine: mmapv1/  engine: wiredTiger/" /etc/mongod.conf
   systemctl start mongod
+  sleep 20
   mongo --eval 'rs.initiate()'
   mongorestore --drop --archive=/var/local/mongodump/mmapdump.gz --gzip --noIndexRestore
   mongo --eval 'db.repairDatabase()'
+  sleep 20
+  systemctl reset-failed rocketchat.service
   systemctl start rocketchat
   echo "...end of mongodb engine migration."
 

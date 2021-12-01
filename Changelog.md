@@ -1,5 +1,10 @@
 # Changelog
 
+## 20210413.9
+
+* use latest Rocket.Chat 4.2.0
+* set mongodb-engine to wiredTiger
+
 ## 20210413.8
 
 * use latest Rocket.Chat 4.1.0

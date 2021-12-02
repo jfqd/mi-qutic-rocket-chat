@@ -124,7 +124,7 @@ if /native/usr/sbin/mdata-get jitsi_url 1>/dev/null 2>&1; then
   JITSI_URL=$(/native/usr/sbin/mdata-get jitsi_url)
   JITSI_APP_ID=$(/native/usr/sbin/mdata-get jitsi_app_id)
   JITSI_APP_SECRET=$(/native/usr/sbin/mdata-get jitsi_app_secret)
-  cat >> /usr/local/bin/setup-jitsi-meet << EOF
+  cat >> /usr/local/bin/setup-jitsi-meet << 'EOF'
 #!/usr/bin/bash
 mongo --quiet --eval 'db.getSiblingDB("rocket").rocketchat_settings.updateOne({ _id: "Jitsi_Domain"},{ $set: {"value": "${JITSI_URL}"} });'
 mongo --quiet --eval 'db.getSiblingDB("rocket").rocketchat_settings.updateOne({ _id: "Jitsi_Application_ID"},{ $set: {"value": "${JITSI_APP_ID}"} });'

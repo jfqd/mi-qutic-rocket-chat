@@ -54,7 +54,24 @@ if [[ $(/native/usr/sbin/mdata-get rocketchat_instances) > 1 ]]; then
   sed -i \
       -e "s|  # server 127.0.0.1:3001;|  server 127.0.0.1:3001;|" \
       /etc/nginx/sites-available/rocketchat
-  # TODO: maybe start more than two instances
+fi
+if [[ $(/native/usr/sbin/mdata-get rocketchat_instances) > 2 ]]; then
+  systemctl daemon-reload
+  systemctl start rocketchat@3002
+  systemctl enable rocketchat@3002
+  # restart nginx
+  sed -i \
+      -e "s|  # server 127.0.0.1:3002;|  server 127.0.0.1:3002;|" \
+      /etc/nginx/sites-available/rocketchat
+fi
+if [[ $(/native/usr/sbin/mdata-get rocketchat_instances) > 3 ]]; then
+  systemctl daemon-reload
+  systemctl start rocketchat@3003
+  systemctl enable rocketchat@3003
+  # restart nginx
+  sed -i \
+      -e "s|  # server 127.0.0.1:3003;|  server 127.0.0.1:3003;|" \
+      /etc/nginx/sites-available/rocketchat
 fi
 
 # Restart nginx to load config-changes
@@ -65,8 +82,10 @@ if /native/usr/sbin/mdata-get mongodb_url 1>/dev/null 2>&1; then
 else
   # sleep two minute to ensure db was created
   sleep 120
-  cat >> /usr/local/bin/rc-config << EOF
+  cat >> /usr/local/bin/rc-config << 'EOF'
 #!/usr/bin/bash
+echo "* Disable free cloud-based monitoring service"
+mongo --quiet --eval 'db.disableFreeMonitoring();' || true
 echo "* Enable prometheus node endpoint"
 mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Prometheus_Enabled"},{ $set: {"value": true} });' || true
 echo "* Disable update notification"

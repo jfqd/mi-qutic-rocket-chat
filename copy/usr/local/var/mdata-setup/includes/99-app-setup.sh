@@ -138,9 +138,11 @@ fi
 
 echo "* Create http-basic password for backup area"
 if [[ ! -f /etc/nginx/.htpasswd ]]; then
-  hostname | shasum | awk '{print $1}' | htpasswd -c -i /etc/nginx/.htpasswd "rc-backup"
-  chmod 0640 /etc/nginx/.htpasswd
-  chown root:www-data /etc/nginx/.htpasswd
+  if /native/usr/sbin/mdata-get rocketchat_backup_pwd 1>/dev/null 2>&1; then
+    /native/usr/sbin/mdata-get rocketchat_backup_pwd | shasum | awk '{print $1}' | htpasswd -c -i /etc/nginx/.htpasswd "rc-backup"
+    chmod 0640 /etc/nginx/.htpasswd
+    chown root:www-data /etc/nginx/.htpasswd
+  fi
 fi
 
 # journalctl -f -u rocketchat

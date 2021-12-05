@@ -80,6 +80,7 @@ systemctl edit --full rocketchat
 systemctl daemon-reload
 systemctl restart rocketchat
 systemctl status rocketchat
+systemctl reload nginx
 EOF
 
 echo "* Cleaning up."

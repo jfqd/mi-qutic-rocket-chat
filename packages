@@ -20,3 +20,4 @@ fontconfig
 git
 jq
 htop
+apache2-utils

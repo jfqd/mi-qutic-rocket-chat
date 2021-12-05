@@ -136,6 +136,13 @@ EOF
   /usr/local/bin/setup-jitsi-meet || true
 fi
 
+echo "* Create http-basic password for backup area"
+if [[ ! -f /etc/nginx/.htpasswd ]]; then
+  hostname | shasum | awk '{print $1}' | htpasswd -c -i /etc/nginx/.htpasswd "rc-backup"
+  chmod 0640 /etc/nginx/.htpasswd
+  chown root:www-data /etc/nginx/.htpasswd
+fi
+
 # journalctl -f -u rocketchat
 # systemctl status rocketchat
 # systemctl stop rocketchat

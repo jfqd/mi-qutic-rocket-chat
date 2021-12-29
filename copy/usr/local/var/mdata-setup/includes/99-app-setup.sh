@@ -74,6 +74,14 @@ if [[ $(/native/usr/sbin/mdata-get rocketchat_instances) > 3 ]]; then
       /etc/nginx/sites-available/rocketchat
 fi
 
+# echo "* Calculate workers-processes and -connections"
+# # ulimit -n => 1048576
+# MEMCAP=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }' | awk '{ printf "%d", $1/1024 }');
+# NGINX_WORKER=1
+# [[ ${MEMCAP} -ge 2560 ]]  && NGINX_WORKER=1
+# [[ ${MEMCAP} -ge 6144 ]]  && NGINX_WORKER=1
+# [[ ${MEMCAP} -ge 10240 ]] && NGINX_WORKER=2
+
 # Restart nginx to load config-changes
 systemctl restart nginx
 

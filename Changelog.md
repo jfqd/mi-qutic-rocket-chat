@@ -1,5 +1,13 @@
 # Changelog
 
+## 20210413.10
+
+* use latest Rocket.Chat 4.3.0
+* log rocketchat nginx requests
+* http-auth protected backup url
+* allow up to 4 node processes
+* include htop package
+
 ## 20210413.9
 
 * use latest Rocket.Chat 4.2.0

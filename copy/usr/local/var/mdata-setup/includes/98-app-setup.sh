@@ -150,6 +150,7 @@ if [[ ! -f /etc/nginx/.htpasswd ]]; then
     /native/usr/sbin/mdata-get rocketchat_backup_pwd | shasum | awk '{print $1}' | htpasswd -c -i /etc/nginx/.htpasswd "rc-backup"
     chmod 0640 /etc/nginx/.htpasswd
     chown root:www-data /etc/nginx/.htpasswd
+    mkdir -p /var/local/mongodump/
   fi
 fi
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 20210413.11
+
+* use latest Rocket.Chat 4.3.2
+* use latest lx-base image
+* add after-install cleanup script
+* skip nextcloud backup if url is mising
+
 ## 20210413.10
 
 * use latest Rocket.Chat 4.3.0

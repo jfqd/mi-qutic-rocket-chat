@@ -20,8 +20,15 @@ HOSTNAME="$(hostname)"
 mkdir -p "${BACKUP_FOLDER}"
 cd "${BACKUP_FOLDER}"
 
+# echo "*** Stop Rocket.Chat for backup"
+# systemctl stop rocketchat
+# sleep 5
+
 echo "*** Create MonoDB backup"
 mongodump --quiet --out="${BACKUP_FOLDER}/${BACKUP_FILE}"
+
+# echo "*** Start Rocket.Chat after backup"
+# systemctl start rocketchat
 
 echo "*** Create MongoDB backup.tar.bz2"
 tar cjf "${BACKUP_FILE}.tar.bz2" "./${BACKUP_FILE}"
@@ -36,7 +43,19 @@ if [[ -d /data ]]; then
   echo "*** Copy file: ${BACKUP_FILE}.tar.bz2"
   cat "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" | openssl enc -pbkdf2 -k "${HOSTNAME}" -nosalt > "/data/${HOSTNAME}/mongodb/${BACKUP_FILE}.tar.bz2.enc"
   cat "${BACKUP_FOLDER}/shasum" >> "/data/${HOSTNAME}/shasum"
-else
+  if [[ -d /var/www/rocket/upload ]]; then
+    BACKUP_EXTERNAL_UPLOAD="${DATE}_rocketchat_upload.tar.bz2"
+    echo "*** Create external rc-upload.tar.bz2"
+    if [[ -d /data ]]; then
+      (
+        mkdir -p "/data/${HOSTNAME}/upload"
+        cd /var/www/rocket
+        tar cjf "/data/${HOSTNAME}/upload/${BACKUP_EXTERNAL_UPLOAD}" "./upload"
+      )
+    fi
+  fi
+  # end of nfs backup
+elif [[ -n "${NEXTCLOUD}" ]]; then
   echo "*** Create Nextcloud folder structure"
   curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}" > /dev/null
   curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}" > /dev/null
@@ -76,18 +95,8 @@ else
       [[ $counter -gt 3 ]] && status=0
     done
   fi
-fi
-
-if [[ -d /var/www/rocket/upload ]]; then
-  BACKUP_EXTERNAL_UPLOAD="${DATE}_rocketchat_upload.tar.bz2"
-  echo "*** Create external rc-upload.tar.bz2"
-  if [[ -d /data ]]; then
-    (
-      mkdir -p "/data/${HOSTNAME}/upload"
-      cd /var/www/rocket
-      tar cjf "/data/${HOSTNAME}/upload/${BACKUP_EXTERNAL_UPLOAD}" "./upload"
-    )
-  else
+  
+  if [[ -d /var/www/rocket/upload ]]; then
     # nextcloud update
     (
       cd /var/www/rocket
@@ -104,11 +113,14 @@ if [[ -d /var/www/rocket/upload ]]; then
     done
     rm -rf "${BACKUP_EXTERNAL_UPLOAD}" 2>/dev/null
   fi
+  
+  echo "*** Delete backup from yesterday"
+  curl -s -u "${USER}:${PASSWORD}" -X DELETE "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${YESTERDAY}" > /dev/null
+  rm -rf "${BACKUP_FOLDER}/${YESTERDAY}_rocketchat.mongodump.tar.bz2" 2>/dev/null
+  # end of nextcloud backup
+else
+  echo "*** Skip nextcloud backup cause of missing cresentials"
 fi
-
-echo "*** Delete backup from yesterday"
-curl -s -u "${USER}:${PASSWORD}" -X DELETE "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${YESTERDAY}" > /dev/null
-rm -rf "${BACKUP_FOLDER}/${YESTERDAY}_rocketchat.mongodump.tar.bz2" 2>/dev/null
 
 if [[ -d /data ]]; then
   echo "*** Cleanup old backups on share"

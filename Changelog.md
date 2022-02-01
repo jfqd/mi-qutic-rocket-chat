@@ -1,5 +1,11 @@
 # Changelog
 
+## 20210413.12
+
+* use latest Rocket.Chat 4.4.0
+* include engine in version output
+* always backup database
+
 ## 20210413.11
 
 * use latest Rocket.Chat 4.3.2

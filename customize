@@ -36,7 +36,7 @@ sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf
 echo "* Setup node"
 apt-get -y install npm
 npm install -g inherits n
-/usr/local/bin/n 12.21.0
+/usr/local/bin/n 14.18.2
 # npm install npm@latest -g
 
 echo "* Setup rocket-chat"
@@ -78,6 +78,7 @@ systemctl restart mongod
 systemctl status mongod
 systemctl edit --full rocketchat
 systemctl daemon-reload
+systemctl reset-failed rocketchat.service
 systemctl restart rocketchat
 systemctl status rocketchat
 systemctl reload nginx

@@ -2,6 +2,9 @@
 
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-grep '    "version": "' /var/www/rocket/programs/server/app/app.js |awk '{ print $ 2 }' | tr -d "\"," || true
+VERSION=$(grep '    "version": "' /var/www/rocket/programs/server/app/app.js | awk '{ print $ 2 }' | tr -d "\",")
+ENGINE=$([[ $(grep 'engine: wiredTiger' /etc/mongod.conf) ]] && echo "wt" || echo "mmap")
+
+/usr/bin/printf "${VERSION}\t${ENGINE}\n"
 
 exit 0

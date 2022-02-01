@@ -43,24 +43,27 @@ else
     NEXTCLOUD_URL=$(/native/usr/sbin/mdata-get nextcloud_url)
     NEXTCLOUD_USR=$(/native/usr/sbin/mdata-get nextcloud_user)
     NEXTCLOUD_PWD=$(/native/usr/sbin/mdata-get nextcloud_password)
-
+    WAIT_EXTENSION="-s "
     sed -i \
         -e "s#NEXTCLOUD='https://nextcloud.example.com'#NEXTCLOUD='${NEXTCLOUD_URL}'#" \
         -e "s#nextcloud-username#${NEXTCLOUD_USR}#" \
         -e "s#nextcloud-password#${NEXTCLOUD_PWD}#" \
         /usr/local/bin/mongo-backup
+  else
+    sed -i \
+        -e "s#NEXTCLOUD='https://nextcloud.example.com'#NEXTCLOUD=''#" \
+        /usr/local/bin/mongo-backup
+  fi
+  chmod 0750 /usr/local/bin/mongo-backup
 
-    chmod 0750 /usr/local/bin/mongo-backup
-
-    if [[ ! -e /etc/cron.d/mongo-backup ]]; then
-      cat >> /etc/cron.d/mongo-backup << EOF
+  if [[ ! -e /etc/cron.d/mongo-backup ]]; then
+    cat >> /etc/cron.d/mongo-backup << EOF
 MAILTO=root
 #
-50 23 * * *     root   /usr/local/bin/mongo-backup -s > /dev/null
+50 23 * * *     root   /usr/local/bin/mongo-backup ${WAIT_EXTENSION}> /dev/null
 # END
 EOF
-    fi
-
   fi
+
   
 fi

@@ -3,6 +3,7 @@
 ## 20210413.12
 
 * use latest Rocket.Chat 4.4.0
+* update node to 14.18.2
 * include engine in version output
 * always backup database
 

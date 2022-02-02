@@ -15,6 +15,7 @@ DATE=$(date '+%Y%m%d')
 YESTERDAY=$(TZ=GMT+24 date '+%Y%m%d')
 BACKUP_FOLDER="/var/local/mongodump"
 BACKUP_FILE="${DATE}_rocketchat.mongodump"
+BACKUP_EXTERNAL_UPLOAD="${DATE}_rocketchat_upload.tar.bz2"
 HOSTNAME="$(hostname)"
 
 mkdir -p "${BACKUP_FOLDER}"
@@ -35,7 +36,7 @@ tar cjf "${BACKUP_FILE}.tar.bz2" "./${BACKUP_FILE}"
 rm -rf "${BACKUP_FOLDER}/${BACKUP_FILE}"
 
 echo "*** Create shasum from backup.tar.bz2"
-sha1sum "${BACKUP_FILE}.tar.bz2" > shasum
+sha1sum "${BACKUP_FILE}.tar.bz2" > "${BACKUP_FILE}.tar.bz2.shasum"
 
 if [[ -d /data ]]; then
   echo "*** Create nfs folder structure"
@@ -44,7 +45,6 @@ if [[ -d /data ]]; then
   cat "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2" | openssl enc -pbkdf2 -k "${HOSTNAME}" -nosalt > "/data/${HOSTNAME}/mongodb/${BACKUP_FILE}.tar.bz2.enc"
   cat "${BACKUP_FOLDER}/shasum" >> "/data/${HOSTNAME}/shasum"
   if [[ -d /var/www/rocket/upload ]]; then
-    BACKUP_EXTERNAL_UPLOAD="${DATE}_rocketchat_upload.tar.bz2"
     echo "*** Create external rc-upload.tar.bz2"
     if [[ -d /data ]]; then
       (
@@ -55,14 +55,26 @@ if [[ -d /data ]]; then
     fi
   fi
   # end of nfs backup
-elif [[ -n "${NEXTCLOUD}" ]]; then
+else
+  if [[ -d /var/www/rocket/upload ]]; then
+    echo "*** Create backup of filesystem uploads"
+    (
+      cd /var/www/rocket
+      tar cjf "${BACKUP_FOLDER}/${BACKUP_EXTERNAL_UPLOAD}" "./upload"
+      sha1sum "${BACKUP_FOLDER}/${BACKUP_EXTERNAL_UPLOAD}" > "${BACKUP_FOLDER}/${BACKUP_EXTERNAL_UPLOAD}.shasum"
+    )
+  fi
+fi
+
+# backup to Nextcloud?
+if [[ -n "${NEXTCLOUD}" ]]; then
   echo "*** Create Nextcloud folder structure"
   curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}" > /dev/null
   curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}" > /dev/null
   curl -s -u "${USER}:${PASSWORD}" -X MKCOL "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}" > /dev/null
 
   echo "*** Upload shasum file"
-  curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/shasum" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/shasum"
+  curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/${BACKUP_FILE}.tar.bz2.shasum" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_FILE}.tar.bz2.shasum"
 
   if [[ $(stat --printf="%s" "${BACKUP_FILE}.tar.bz2") -gt 524288000 ]]; then
     mkdir "split"
@@ -97,11 +109,7 @@ elif [[ -n "${NEXTCLOUD}" ]]; then
   fi
   
   if [[ -d /var/www/rocket/upload ]]; then
-    # nextcloud update
-    (
-      cd /var/www/rocket
-      tar cjf "${BACKUP_FOLDER}/${BACKUP_EXTERNAL_UPLOAD}" "./upload"
-    )
+    # upload fileystem uploads to nextcloud too
     status=1
     counter=0
     while [[ $status -eq 1 ]]; do
@@ -111,6 +119,8 @@ elif [[ -n "${NEXTCLOUD}" ]]; then
       [[ $http_code -ge 200 && $http_code -lt 300 ]] && status=0
       [[ $counter -gt 3 ]] && status=0
     done
+    echo "*** Upload shasum file"
+    curl -s -u "${USER}:${PASSWORD}" -T "${BACKUP_FOLDER}/${BACKUP_EXTERNAL_UPLOAD}.shasum" "${NEXTCLOUD}/remote.php/dav/files/${USER}/${FOLDER}/${HOSTNAME}/${DATE}/${BACKUP_EXTERNAL_UPLOAD}.shasum"
     rm -rf "${BACKUP_EXTERNAL_UPLOAD}" 2>/dev/null
   fi
   
@@ -129,6 +139,7 @@ if [[ -d /data ]]; then
 else
   echo "*** Cleanup old backups on local disk"
   ls -1dt /var/local/mongodump/*rocketchat.mongodump.tar.bz2 | tail -n +2 | xargs rm -rf || true
+  ls -1dt /var/local/mongodump/*_rocketchat_upload.tar.bz2 | tail -n +2 | xargs rm -rf || true
 fi
 
 exit 0

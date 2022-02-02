@@ -144,6 +144,19 @@ EOF
   /usr/local/bin/setup-jitsi-meet || true
 fi
 
+echo "* Migrate upload-storage to FileSystem"
+cat >> /usr/local/bin/migrate-rc-to-filesystempath << EOF
+#!/usr/bin/bash
+
+echo "* Set Storage to FileSystem "
+mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "FileUpload_Storage_Type"},{ \$set: {"value": "FileSystem"} });' || true
+echo "* Set Upload path"
+mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "FileUpload_FileSystemPath"},{ \$set: {"value": "/var/www/rocket/upload"} });' || true
+
+EOF
+chmod 0700 /usr/local/bin/migrate-rc-to-filesystempath
+/usr/local/bin/migrate-rc-to-filesystempath
+
 echo "* Create http-basic password for backup area"
 if [[ ! -f /etc/nginx/.htpasswd ]]; then
   if /native/usr/sbin/mdata-get rocketchat_backup_pwd 1>/dev/null 2>&1; then

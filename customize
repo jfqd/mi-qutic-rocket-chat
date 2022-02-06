@@ -70,9 +70,20 @@ su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-remembe
 cp /usr/local/var/tmp/external-scripts.json /var/www/hubot/hubot-rocketchat-boilerplate/external-scripts.json
 cp /usr/local/var/tmp/hubot_service /etc/systemd/system/hubot.service
 
-echo "* Ensure bootstrap will run next time"
-rm -rf /var/lib/bootstrap
+echo "* Disable and remove rpcbind"
+apt-get -y remove rpcbind || true
+systemctl stop rpcbind.service
+systemctl disable rpcbind.service
 
+echo "* Disable nfs-client"
+systemctl unmask nfs-client.target
+systemctl disable nfs-client.target
+
+echo "* Disable ssh"
+systemctl stop ssh
+systemctl disable ssh
+
+echo "* Create bash-history"
 cat >> /root/.bash_history << EOF
 systemctl restart mongod
 systemctl status mongod
@@ -82,7 +93,11 @@ systemctl reset-failed rocketchat.service
 systemctl restart rocketchat
 systemctl status rocketchat
 systemctl reload nginx
+journalctl --since $(date '+%Y-%m-%d')
 EOF
+
+echo "* Ensure bootstrap will run next time"
+rm -rf /var/lib/bootstrap
 
 echo "* Cleaning up."
 apt-get -y purge git make gcc g++ build-essential

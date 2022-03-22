@@ -1,11 +1,11 @@
 {
   "name":         "qutic-rocket-chat",
-  "version":      "20210413.11",
-  "description":  "qutic rocket-chat 4.4.0 image",
+  "version":      "20210413.13",
+  "description":  "qutic rocket-chat 4.5.3 image",
   "organization": "qutic development",
   "brand":        "Instance",
   "homepage":     "https://github.com/jfqd/mi-qutic-rocket-chat",
-  "base":         "7c696906-7a15-11ec-98bb-f7d85f66c5c1",
+  "base":         "cb020ee4-a9bb-11ec-b16c-1b18c2e32e2e",
   "customer_metadata": {
     "admin_authorized_keys": {"type": "text", "description": "SSH public authorized key(s) for the admin user"},
     "root_authorized_keys":  {"type": "text", "description": "SSH public authorized key(s) for the root user"},

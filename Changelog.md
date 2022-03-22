@@ -1,5 +1,13 @@
 # Changelog
 
+## 20210413.13
+
+* use latest Rocket.Chat 4.5.3
+* fix nginx logrotation
+* backup filesystem-uploads too
+* migrate uploads to filesystem
+* hardening ports
+
 ## 20210413.12
 
 * use latest Rocket.Chat 4.4.0

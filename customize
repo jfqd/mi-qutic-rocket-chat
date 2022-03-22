@@ -10,6 +10,9 @@ ROCKET_CHAT_VERSION="4.5.3"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+echo "* Remove apt-get workaround"
+rm /usr/local/bin/apt-get || true
+
 echo "* Get latest"
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y update

@@ -1,5 +1,10 @@
 # Changelog
 
+## 20210413.14
+
+* use latest Rocket.Chat 4.6.3
+* disable surveys
+
 ## 20210413.13
 
 * use latest Rocket.Chat 4.5.3

@@ -98,6 +98,8 @@ echo "* Enable prometheus node endpoint"
 mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Prometheus_Enabled"},{ \$set: {"value": true} });' || true
 echo "* Disable update notification"
 mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Update_EnableChecker"},{ \$set: {"value": false} });' || true
+echo "* Disable surveys"
+mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "NPS_survey_enable"},{ \$set: {"value": false} });' || true
 EOF
   chmod +x /usr/local/bin/rc-config
   /usr/local/bin/rc-config || true

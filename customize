@@ -44,7 +44,7 @@ npm install -g inherits n
 
 echo "* Setup rocket-chat"
 addgroup rocket
-adduser --disabled-password --system --quiet --home /var/www/rocket --shell /bin/bash rocket
+adduser --disabled-password --system --quiet --home /var/www/rocket --shell /usr/bin/bash rocket
 adduser rocket rocket
 mkdir -p /var/www/rocket
 curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}.tgz" | tar xz -C /var/www/rocket --strip-components=1

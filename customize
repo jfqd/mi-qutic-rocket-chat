@@ -29,8 +29,9 @@ systemctl daemon-reload
 # service nginx restart
 
 echo "* Setup mongodb"
-curl -fsSL https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add - || true
-echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - || true
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+
 apt-get -y update
 apt-get -y install mongodb-org
 sed -i "s/^#  engine:/  engine: wiredTiger/" /etc/mongod.conf

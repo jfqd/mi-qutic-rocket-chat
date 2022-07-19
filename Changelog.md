@@ -1,5 +1,12 @@
 # Changelog
 
+## 20210413.15
+
+* use latest Rocket.Chat 4.6.4
+* patch out "Go full featured"
+* migrate mongodb to v4.4
+* fix bash path
+
 ## 20210413.14
 
 * use latest Rocket.Chat 4.6.3

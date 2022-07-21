@@ -49,7 +49,7 @@ adduser --disabled-password --system --quiet --home /var/www/rocket --shell /usr
 adduser rocket rocket
 mkdir -p /var/www/rocket
 # curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}.tgz" | tar xz -C /var/www/rocket --strip-components=1
-curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}-patched.tar.bz2" | tar xj -C /var/www/rocket --strip-components=1
+curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}-patched.tar.bz2" | tar xj -C /var/www/rocket --strip-components=2
 chown -R rocket:rocket /var/www/rocket
 chmod 0644 /var/www/rocket/programs/server/*.json
 su - rocket -c "cd /var/www/rocket/programs/server && npm install"

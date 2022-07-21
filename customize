@@ -58,23 +58,6 @@ echo "* Setup rocket-chat service"
 cp /usr/local/var/tmp/nginx.conf /etc/nginx/nginx.conf
 cp /usr/local/var/tmp/rocketchat_service /etc/systemd/system/rocketchat.service
 
-echo "* Setup hubot"
-addgroup hubot
-adduser --disabled-password --system --quiet --home /var/www/hubot --shell /bin/bash hubot
-adduser hubot hubot
-mkdir -p /var/www/hubot
-su - hubot -c "git clone https://github.com/RocketChat/hubot-rocketchat-boilerplate"
-# https://github.com/RocketChat/hubot-rocketchat/issues/338#issuecomment-734128312
-sed -i \
-    -e "s|rocketchat/hubot-rocketchat|git+https://github.com/DeviaVir/hubot-rocketchat.git|" \
-    /var/www/hubot/hubot-rocketchat-boilerplate/package.json
-# install dependencies
-su - hubot -c "cd hubot-rocketchat-boilerplate; npm install" || true
-su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save git@github.com:jfqd/hubot-rundeck.git" || true
-su - hubot -c "cd hubot-rocketchat-boilerplate; npm install --save hubot-rememberto" || true
-cp /usr/local/var/tmp/external-scripts.json /var/www/hubot/hubot-rocketchat-boilerplate/external-scripts.json
-cp /usr/local/var/tmp/hubot_service /etc/systemd/system/hubot.service
-
 echo "* Disable and remove rpcbind"
 apt-get -y remove rpcbind || true
 systemctl stop rpcbind.service

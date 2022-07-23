@@ -89,6 +89,7 @@ rm -rf /var/lib/bootstrap
 
 echo "* Cleaning up."
 apt-get -y purge git make gcc g++ build-essential
+apt-get -y autoremove
 rm -rf /usr/local/var/tmp/*
 rm /var/log/syslog || true
 touch /var/log/syslog || true

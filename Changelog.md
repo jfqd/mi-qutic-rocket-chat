@@ -1,5 +1,10 @@
 # Changelog
 
+## 20210413.16
+
+* WIP
+* move hubot setup to provision time
+
 ## 20210413.15
 
 * use latest Rocket.Chat 4.6.4

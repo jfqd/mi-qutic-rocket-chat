@@ -6,7 +6,8 @@ export LC_ALL=en_US.utf8
 export LANGUAGE=en_US.utf8
 export LANG=en_US.utf8
 
-ROCKET_CHAT_VERSION="4.6.4"
+ROCKET_CHAT_VERSION="4.8.3"
+NODE_JS_VERSION="14.18.3"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -40,7 +41,7 @@ sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf
 echo "* Setup node"
 apt-get -y install npm
 npm install -g inherits n
-/usr/local/bin/n 14.18.2
+/usr/local/bin/n $NODE_JS_VERSION
 # npm install npm@latest -g
 
 echo "* Setup rocket-chat"

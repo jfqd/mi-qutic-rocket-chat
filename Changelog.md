@@ -2,7 +2,8 @@
 
 ## 20210413.16
 
-* WIP
+* use latest Rocket.Chat 4.8.3
+* autocleanup after build
 * move hubot setup to provision time
 
 ## 20210413.15

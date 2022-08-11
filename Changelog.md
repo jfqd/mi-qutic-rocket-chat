@@ -1,5 +1,10 @@
 # Changelog
 
+## 20210413.17
+
+* use latest Rocket.Chat 5.0.2
+* add nginx redirect
+
 ## 20210413.16
 
 * use latest Rocket.Chat 4.8.3

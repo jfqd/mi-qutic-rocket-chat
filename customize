@@ -6,8 +6,23 @@ export LC_ALL=en_US.utf8
 export LANGUAGE=en_US.utf8
 export LANG=en_US.utf8
 
-ROCKET_CHAT_VERSION="5.0.2"
-NODE_JS_VERSION="14.19.3"
+# RC 5.0.x
+# ROCKET_CHAT_VERSION="5.0.2"
+# ROCKET_CHAT_PATCHED=true
+# NODE_JS_VERSION="14.19.3"
+# MONGO_VERSION="4.4"
+
+# RC 4.5.x (without fully featured)
+# ROCKET_CHAT_VERSION="4.5.7"
+# ROCKET_CHAT_PATCHED=""
+# NODE_JS_VERSION="14.18.3"
+# MONGO_VERSION="4.4"
+
+# RC 3.18.x (with id mapping)
+ROCKET_CHAT_VERSION="3.18.7"
+ROCKET_CHAT_PATCHED=""
+NODE_JS_VERSION="12.22.1"
+MONGO_VERSION="4.2"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -29,9 +44,9 @@ mv /usr/local/var/tmp/nginx_service /usr/lib/systemd/system/nginx.service
 systemctl daemon-reload
 # service nginx restart
 
-echo "* Setup mongodb"
-curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - || true
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+echo "* Setup mongodb v${MONGO_VERSION}"
+curl -fsSL https://www.mongodb.org/static/pgp/server-${MONGO_VERSION}.asc | apt-key add - || true
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/${MONGO_VERSION} multiverse" | tee /etc/apt/sources.list.d/mongodb-org-${MONGO_VERSION}.list
 
 apt-get -y update
 apt-get -y install mongodb-org
@@ -49,8 +64,11 @@ addgroup rocket
 adduser --disabled-password --system --quiet --home /var/www/rocket --shell /usr/bin/bash rocket
 adduser rocket rocket
 mkdir -p /var/www/rocket
-# curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}.tgz" | tar xz -C /var/www/rocket --strip-components=1
-curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}-patched.tar.bz2" | tar xj -C /var/www/rocket --strip-components=2
+if [[ -z "${ROCKET_CHAT_PATCHED}" ]]; then
+  curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}.tgz" | tar xz -C /var/www/rocket --strip-components=1
+else
+  curl -L -s "https://download.qutic.com/src/rocket-chat/rocket.chat-${ROCKET_CHAT_VERSION}-patched.tar.bz2" | tar xj -C /var/www/rocket --strip-components=2
+fi
 chown -R rocket:rocket /var/www/rocket
 chmod 0644 /var/www/rocket/programs/server/*.json
 su - rocket -c "cd /var/www/rocket/programs/server && npm install"

@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.18.7
+
+* change numbering schema
+* build image for Rocket.Chat 3.18.7
+* remove nginx redirect
+
 ## 20210413.17
 
 * use latest Rocket.Chat 5.0.2

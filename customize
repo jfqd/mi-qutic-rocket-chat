@@ -7,10 +7,10 @@ export LANGUAGE=en_US.utf8
 export LANG=en_US.utf8
 
 # RC 5.0.x
-# ROCKET_CHAT_VERSION="5.0.2"
-# ROCKET_CHAT_PATCHED=true
-# NODE_JS_VERSION="14.19.3"
-# MONGO_VERSION="4.4"
+ROCKET_CHAT_VERSION="5.0.4"
+ROCKET_CHAT_PATCHED=true
+NODE_JS_VERSION="14.19.3"
+MONGO_VERSION="4.4"
 
 # RC 4.5.x (without fully featured)
 # ROCKET_CHAT_VERSION="4.5.7"
@@ -19,10 +19,10 @@ export LANG=en_US.utf8
 # MONGO_VERSION="4.4"
 
 # RC 3.18.x (with id mapping)
-ROCKET_CHAT_VERSION="3.18.7"
-ROCKET_CHAT_PATCHED=""
-NODE_JS_VERSION="12.22.1"
-MONGO_VERSION="4.2"
+# ROCKET_CHAT_VERSION="3.18.7"
+# ROCKET_CHAT_PATCHED=""
+# NODE_JS_VERSION="12.22.1"
+# MONGO_VERSION="4.2"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 

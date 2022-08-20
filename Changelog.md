@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.4
+
+* build image for Rocket.Chat 5.0.4
+
 ## 3.18.7
 
 * change numbering schema

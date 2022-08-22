@@ -31,7 +31,6 @@ if /native/usr/sbin/mdata-get rocketchat_adm_usr 1>/dev/null 2>&1; then
   RC_ADM_EMAIL=$(/native/usr/sbin/mdata-get rocketchat_adm_email)
   sed -i \
       -e "s|#Environment=OVERWRITE_SETTING_Show_Setup_Wizard=completed|Environment=OVERWRITE_SETTING_Show_Setup_Wizard=completed|" \
-      -e "s|#Environment=INITIAL_USER=yes|Environment=INITIAL_USER=yes|" \
       -e "s|#Environment=ADMIN_USERNAME=adm_usr|Environment=ADMIN_USERNAME=${RC_ADM_USR}|" \
       -e "s|#Environment=ADMIN_PASS=adm_pwd|Environment=ADMIN_PASS=${RC_ADM_PWD}|" \
       -e "s|#Environment=ADMIN_EMAIL=adm_email|Environment=ADMIN_EMAIL=${RC_ADM_EMAIL}|" \

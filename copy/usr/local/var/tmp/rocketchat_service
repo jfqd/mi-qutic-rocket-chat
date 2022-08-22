@@ -22,23 +22,24 @@ Environment=MAIL_URL=smtp://noreply%40example.com:password@mail.example.com:587
 # Config overwrite
 Environment=OVERWRITE_SETTING_Prometheus_Enabled=true
 Environment=OVERWRITE_SETTING_Update_EnableChecker=false
-Environment=OVERWRITE_SETTING_NPS_survey_enable=false
+Environment=OVERWRITE_SETTING_NPS_survey_enabled=false
 Environment=OVERWRITE_SETTING_FileUpload_Storage_Type=FileSystem
 Environment=OVERWRITE_SETTING_FileUpload_FileSystemPath=/var/www/rocket/upload
 Environment=OVERWRITE_SETTING_DeepLink_Url=
 Environment=OVERWRITE_SETTING_CDN_PREFIX=
 Environment=OVERWRITE_SETTING_Statistics_reporting=false
+Environment=OVERWRITE_SETTING_Allow_Marketing_Emails=false
+Environment=OVERWRITE_SETTING_Apps_Framework_enabled=false
 Environment=API_Enable_Rate_Limiter_Limit_Calls_Default=100
 Environment=API_Enable_Rate_Limiter_Limit_Time_Default=1000
 #Environment=OVERWRITE_SETTING_Show_Setup_Wizard=completed
-#Environment=INITIAL_USER=yes
 #Environment=ADMIN_USERNAME=adm_usr
 #Environment=ADMIN_PASS=adm_pwd
 #Environment=ADMIN_EMAIL=adm_email
 #Environment=OVERWRITE_SETTING_From_Email=adm_email
 #Environment=CREATE_TOKENS_FOR_USERS=true
 # Blocked and hidden config
-Environment=SETTINGS_BLOCKED=NPS_survey_enable,Update_EnableChecker,Prometheus_Enabled,Show_Setup_Wizard,Statistics_reporting
+Environment=SETTINGS_BLOCKED=NPS_survey_enabled,Update_EnableChecker,Prometheus_Enabled,Show_Setup_Wizard,Statistics_reporting
 #Environment=SETTINGS_HIDDEN=
 # Addidional config
 

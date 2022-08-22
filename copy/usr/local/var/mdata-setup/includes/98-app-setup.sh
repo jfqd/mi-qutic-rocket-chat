@@ -25,6 +25,18 @@ else
   RC_DATABASE="rocket"
 fi
 
+if /native/usr/sbin/mdata-get rocketchat_adm_usr 1>/dev/null 2>&1; then
+  RC_ADM_USR=$(/native/usr/sbin/mdata-get rocketchat_adm_usr)
+  RC_ADM_PWD=$(/native/usr/sbin/mdata-get rocketchat_adm_pwd)
+  RC_ADM_EMAIL=$(/native/usr/sbin/mdata-get rocketchat_adm_email)
+  sed -i \
+      -e "s|#Environment=OVERWRITE_SETTING_Show_Setup_Wizard=completed|Environment=OVERWRITE_SETTING_Show_Setup_Wizard=completed|" \
+      -e "s|#Environment=ADMIN_USERNAME=adm_usr|Environment=ADMIN_USERNAME=${RC_ADM_USR}|" \
+      -e "s|#Environment=ADMIN_PASS=adm_pwd|Environment=ADMIN_PASS=${RC_ADM_PWD}" \
+      -e "s|#Environment=ADMIN_EMAIL=adm_email|Environment=ADMIN_EMAIL=${RC_ADM_EMAIL}|" \
+      /etc/systemd/system/rocketchat.service
+fi
+
 if /native/usr/sbin/mdata-get rocketchat_api 1>/dev/null 2>&1; then
   if [[ $(/native/usr/sbin/mdata-get rocketchat_api) = "true" ]]; then
     sed -i \
@@ -85,25 +97,25 @@ fi
 # Restart nginx to load config-changes
 systemctl restart nginx
 
-if /native/usr/sbin/mdata-get mongodb_url 1>/dev/null 2>&1; then
-  echo "* Skip mongodb settings"
-else
-  # sleep two minute to ensure db was created
-  sleep 120
-  cat >> /usr/local/bin/rc-config << EOF
-#!/usr/bin/bash
-echo "* Disable free cloud-based monitoring service"
-mongo --quiet --eval 'db.disableFreeMonitoring();' || true
-echo "* Enable prometheus node endpoint"
-mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Prometheus_Enabled"},{ \$set: {"value": true} });' || true
-echo "* Disable update notification"
-mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Update_EnableChecker"},{ \$set: {"value": false} });' || true
-echo "* Disable surveys"
-mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "NPS_survey_enable"},{ \$set: {"value": false} });' || true
-EOF
-  chmod +x /usr/local/bin/rc-config
-  /usr/local/bin/rc-config || true
-fi
+# if /native/usr/sbin/mdata-get mongodb_url 1>/dev/null 2>&1; then
+#   echo "* Skip mongodb settings"
+# else
+#   # sleep two minute to ensure db was created
+#   sleep 120
+#   cat >> /usr/local/bin/rc-config << EOF
+# #!/usr/bin/bash
+# echo "* Disable free cloud-based monitoring service"
+# mongo --quiet --eval 'db.disableFreeMonitoring();' || true
+# echo "* Enable prometheus node endpoint"
+# mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Prometheus_Enabled"},{ \$set: {"value": true} });' || true
+# echo "* Disable update notification"
+# mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Update_EnableChecker"},{ \$set: {"value": false} });' || true
+# echo "* Disable surveys"
+# mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "NPS_survey_enable"},{ \$set: {"value": false} });' || true
+# EOF
+#   chmod +x /usr/local/bin/rc-config
+#   /usr/local/bin/rc-config || true
+# fi
 
 if /native/usr/sbin/mdata-get hubot_password 1>/dev/null 2>&1; then
   # todo create hubot user and room in rocketchat if missing
@@ -146,18 +158,18 @@ EOF
   /usr/local/bin/setup-jitsi-meet || true
 fi
 
-echo "* Migrate upload-storage to FileSystem"
-cat >> /usr/local/bin/migrate-rc-to-filesystempath << EOF
-#!/usr/bin/bash
-
-echo "* Set Storage to FileSystem "
-mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "FileUpload_Storage_Type"},{ \$set: {"value": "FileSystem"} });' || true
-echo "* Set Upload path"
-mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "FileUpload_FileSystemPath"},{ \$set: {"value": "/var/www/rocket/upload"} });' || true
-
-EOF
-chmod 0700 /usr/local/bin/migrate-rc-to-filesystempath
-/usr/local/bin/migrate-rc-to-filesystempath
+# echo "* Migrate upload-storage to FileSystem"
+# cat >> /usr/local/bin/migrate-rc-to-filesystempath << EOF
+# #!/usr/bin/bash
+# 
+# echo "* Set Storage to FileSystem "
+# mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "FileUpload_Storage_Type"},{ \$set: {"value": "FileSystem"} });' || true
+# echo "* Set Upload path"
+# mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "FileUpload_FileSystemPath"},{ \$set: {"value": "/var/www/rocket/upload"} });' || true
+# 
+# EOF
+# chmod 0700 /usr/local/bin/migrate-rc-to-filesystempath
+# /usr/local/bin/migrate-rc-to-filesystempath
 
 echo "* Create http-basic password for backup area"
 if [[ ! -f /etc/nginx/.htpasswd ]]; then

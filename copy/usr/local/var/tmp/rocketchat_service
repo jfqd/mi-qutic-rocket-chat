@@ -33,9 +33,11 @@ Environment=OVERWRITE_SETTING_Apps_Framework_enabled=false
 Environment=API_Enable_Rate_Limiter_Limit_Calls_Default=100
 Environment=API_Enable_Rate_Limiter_Limit_Time_Default=1000
 #Environment=OVERWRITE_SETTING_Show_Setup_Wizard=completed
+#Environment=ADMIN_NAME=adm_name
 #Environment=ADMIN_USERNAME=adm_usr
 #Environment=ADMIN_PASS=adm_pwd
 #Environment=ADMIN_EMAIL=adm_email
+#Environment=ADMIN_EMAIL_VERIFIED=true
 #Environment=From_Email=adm_email
 #Environment=CREATE_TOKENS_FOR_USERS=true
 # Blocked and hidden config

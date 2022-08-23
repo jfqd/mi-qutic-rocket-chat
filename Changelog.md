@@ -3,6 +3,7 @@
 ## 5.0.4.1
 
 * add option to skip setup-wizard
+* add reset mongodb option
 
 ## 5.0.4
 

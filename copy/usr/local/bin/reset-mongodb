@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+systemctl stop rocketchat
+systemctl stop mongod
+sleep 20
+rm -rf /var/lib/mongodb/*
+systemctl start mongod
+sleep 20
+mongo --eval 'rs.initiate()'
+sleep 20
+systemctl start rocketchat

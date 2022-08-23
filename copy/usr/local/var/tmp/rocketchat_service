@@ -36,7 +36,7 @@ Environment=API_Enable_Rate_Limiter_Limit_Time_Default=1000
 #Environment=ADMIN_USERNAME=adm_usr
 #Environment=ADMIN_PASS=adm_pwd
 #Environment=ADMIN_EMAIL=adm_email
-#Environment=OVERWRITE_SETTING_From_Email=adm_email
+#Environment=From_Email=adm_email
 #Environment=CREATE_TOKENS_FOR_USERS=true
 # Blocked and hidden config
 Environment=SETTINGS_BLOCKED=NPS_survey_enabled,Update_EnableChecker,Prometheus_Enabled,Show_Setup_Wizard,Statistics_reporting

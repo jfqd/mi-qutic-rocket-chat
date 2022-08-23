@@ -34,7 +34,7 @@ if /native/usr/sbin/mdata-get rocketchat_adm_usr 1>/dev/null 2>&1; then
       -e "s|#Environment=ADMIN_USERNAME=adm_usr|Environment=ADMIN_USERNAME=${RC_ADM_USR}|" \
       -e "s|#Environment=ADMIN_PASS=adm_pwd|Environment=ADMIN_PASS=${RC_ADM_PWD}|" \
       -e "s|#Environment=ADMIN_EMAIL=adm_email|Environment=ADMIN_EMAIL=${RC_ADM_EMAIL}|" \
-      -e "s|#Environment=OVERWRITE_SETTING_From_Email=adm_email|Environment=OVERWRITE_SETTING_From_Email=${RC_ADM_EMAIL}|" \
+      -e "s|#Environment=From_Email=adm_email|Environment=From_Email=${RC_ADM_EMAIL}|" \
       /etc/systemd/system/rocketchat.service
 fi
 

@@ -140,6 +140,8 @@ else
   echo "*** Cleanup old backups on local disk"
   ls -1dt /var/local/mongodump/*rocketchat.mongodump.tar.bz2 | tail -n +2 | xargs rm -rf || true
   ls -1dt /var/local/mongodump/*_rocketchat_upload.tar.bz2 | tail -n +2 | xargs rm -rf || true
+  ls -1dt /var/local/mongodump/*rocketchat.mongodump.tar.bz2.shasum | tail -n +2 | xargs rm -rf || true
+  ls -1dt /var/local/mongodump/*_rocketchat_upload.tar.bz2.shasum | tail -n +2 | xargs rm -rf || true 
 fi
 
 exit 0

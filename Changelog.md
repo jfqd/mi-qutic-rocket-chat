@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.3.5
+
+* build image for Rocket.Chat 6.3.5
+
 ## 5.0.4.1
 
 * add option to skip setup-wizard

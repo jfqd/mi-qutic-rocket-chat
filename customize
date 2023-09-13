@@ -6,6 +6,7 @@ export LC_ALL=en_US.utf8
 export LANGUAGE=en_US.utf8
 export LANG=en_US.utf8
 
+
 # RC 6.3.x
 ROCKET_CHAT_VERSION="6.3.5"
 ROCKET_CHAT_PATCHED=""

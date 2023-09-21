@@ -1,8 +1,13 @@
 # Changelog
 
+## 6.3.5.1
+
+* build image for patched Rocket.Chat 6.3.5
+
 ## 6.3.5
 
 * build image for Rocket.Chat 6.3.5
+* use mongodb v5.0 for latest rocket.chat
 
 ## 5.0.7
 

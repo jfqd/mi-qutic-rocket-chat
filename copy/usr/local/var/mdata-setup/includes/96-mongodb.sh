@@ -1,5 +1,12 @@
 #!/usr/bin/bash
 
+# add mongo link
+if [[ ! -x /usr/bin/mongo ]]; then
+  if [[ -x /usr/bin/mongosh ]]; then
+    ln -nfs /usr/bin/mongosh /usr/bin/mongo
+  fi
+fi
+
 if [[ -n $(grep "engine: mmapv1" /etc/mongod.conf) ]]; then
   sed -i "s/  engine: mmapv1/  engine: wiredTiger/" /etc/mongod.conf
 fi
@@ -57,7 +64,7 @@ else
   chmod 0750 /usr/local/bin/mongo-backup
 
   if [[ ! -e /etc/cron.d/mongo-backup ]]; then
-    cat >> /etc/cron.d/mongo-backup << EOF
+    cat > /etc/cron.d/mongo-backup << EOF
 MAILTO=root
 #
 50 23 * * *     root   /usr/local/bin/mongo-backup ${WAIT_EXTENSION}> /dev/null

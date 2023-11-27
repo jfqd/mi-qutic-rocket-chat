@@ -6,12 +6,17 @@ export LC_ALL=en_US.utf8
 export LANGUAGE=en_US.utf8
 export LANG=en_US.utf8
 
-
-# RC 6.3.x
+# RC 6.4.x
 ROCKET_CHAT_VERSION="6.4.8"
 ROCKET_CHAT_PATCHED="true"
 NODE_JS_VERSION="14.21.3"
-MONGO_VERSION="5.0"
+MONGO_VERSION="6.0"
+
+# RC 6.3.x
+# ROCKET_CHAT_VERSION="6.3.5"
+# ROCKET_CHAT_PATCHED="true"
+# NODE_JS_VERSION="14.21.3"
+# MONGO_VERSION="5.0"
 
 # RC 5.0.x
 # ROCKET_CHAT_VERSION="5.0.7"
@@ -60,10 +65,12 @@ elif [[ "${MONGO_VERSION}" = "4.4" ]]; then
   curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - || true
   echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 elif [[ "${MONGO_VERSION}" = "5.0" ]]; then
-  # curl -fsSL https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add - || true
-  # echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
-  curl -fsSL https://pgp.mongodb.com/server-7.0.asc | gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
-  echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+  curl -fsSL https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add - || true
+  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+elif [[ "${MONGO_VERSION}" = "6.0" ]]; then
+  # ubuntu 22.04
+  curl -fsSL https://pgp.mongodb.com/server-6.0.asc | gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg --dearmor
+  echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 else
   echo "ERROR: mongodb-version not found"
   exit 1

@@ -66,6 +66,15 @@ else
   fi
 fi
 
+# get all asset names and store them in a file
+(
+cd "${BACKUP_FOLDER}"
+mongo rocket --quiet << 'EOF' > "${DATE}_upload_asset_names.json"
+DBQuery.shellBatchSize = 300000;
+db.getCollection('rocketchat_uploads').find({},{name:1});
+EOF
+)
+
 # backup to Nextcloud?
 if [[ -n "${NEXTCLOUD}" ]]; then
   echo "*** Create Nextcloud folder structure"

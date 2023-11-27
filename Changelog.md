@@ -5,6 +5,7 @@
 * build image for patched Rocket.Chat 6.4.8
 * backup asset names to file
 * bypass mongodb verion validation
+* move to ubuntu 22.04
 
 ## 6.3.5.1
 

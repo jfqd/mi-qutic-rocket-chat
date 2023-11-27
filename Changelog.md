@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.4.8
+
+* build image for patched Rocket.Chat 6.4.8
+* backup asset names to file
+* bypass mongodb verion validation
+
 ## 6.3.5.1
 
 * build image for patched Rocket.Chat 6.3.5

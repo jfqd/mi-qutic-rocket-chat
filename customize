@@ -38,6 +38,9 @@ MONGO_VERSION="6.0"
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+echo "* Setup language env"
+locale-gen en_US.utf8 || true
+
 echo "* Remove apt-get workaround"
 rm /usr/local/bin/apt-get || true
 

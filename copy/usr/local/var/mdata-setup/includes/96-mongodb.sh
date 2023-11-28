@@ -1,12 +1,5 @@
 #!/usr/bin/bash
 
-# add mongo link
-if [[ ! -x /usr/bin/mongo ]]; then
-  if [[ -x /usr/bin/mongosh ]]; then
-    ln -nfs /usr/bin/mongosh /usr/bin/mongo
-  fi
-fi
-
 if [[ -n $(grep "engine: mmapv1" /etc/mongod.conf) ]]; then
   sed -i "s/  engine: mmapv1/  engine: wiredTiger/" /etc/mongod.conf
 fi
@@ -31,8 +24,13 @@ else
   systemctl enable mongod || true
   systemctl start mongod || true
   sleep 10
-  mongo --eval "printjson(rs.initiate())"
-
+  
+  if [[ -x /usr/bin/mongosh ]]; then
+    mongosh --quiet --eval "printjson(rs.initiate())"
+  else
+    mongo --eval "printjson(rs.initiate())"
+  fi
+  
   # mongodump re-import option
   if /native/usr/sbin/mdata-get mongodump_url 1>/dev/null 2>&1; then
     MONGODUMP_URL=$(/native/usr/sbin/mdata-get mongodump_url)

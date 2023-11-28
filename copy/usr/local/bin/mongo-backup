@@ -67,13 +67,15 @@ else
 fi
 
 # get all asset names and store them in a file
+if [[ -x /usr/bin/mongosh ]]; then
 (
 cd "${BACKUP_FOLDER}"
-mongo rocket --quiet << 'EOF' > "${DATE}_upload_asset_names.json"
+/usr/bin/mongosh rocket --quiet << 'EOF' > "${DATE}_upload_asset_names.json"
 DBQuery.shellBatchSize = 300000;
 db.getCollection('rocketchat_uploads').find({},{name:1});
 EOF
 )
+fi
 
 # backup to Nextcloud?
 if [[ -n "${NEXTCLOUD}" ]]; then

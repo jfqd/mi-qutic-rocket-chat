@@ -14,9 +14,17 @@ if [[ -n $(grep "engine: mmapv1" /etc/mongod.conf) ]]; then
   sed -i "s/  engine: mmapv1/  engine: wiredTiger/" /etc/mongod.conf
   systemctl start mongod
   sleep 20
-  mongo --eval 'rs.initiate()'
+  if [[ -x /usr/bin/mongosh ]]; then
+    mongosh --quiet --eval 'rs.initiate()'
+  else
+    mongo --eval 'rs.initiate()'
+  fi
   mongorestore --drop --archive=/var/local/mongodump/mmapdump.gz --gzip --noIndexRestore
-  mongo --eval 'db.repairDatabase()'
+  if [[ -x /usr/bin/mongosh ]]; then
+    mongosh --quiet --eval 'db.repairDatabase()'
+  else
+    mongo --eval 'db.repairDatabase()'
+  fi
   sleep 20
   systemctl reset-failed rocketchat.service
   systemctl start rocketchat

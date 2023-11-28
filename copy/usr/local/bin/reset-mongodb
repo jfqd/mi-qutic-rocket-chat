@@ -9,7 +9,11 @@ if [[ "${1}" = "--full" ]]; then
   rm -rf /var/lib/mongodb/*
   systemctl start mongod
   sleep 20
-  mongo --eval 'rs.initiate()'
+  if [[ -x /usr/bin/mongosh ]]; then
+    mongosh --quiet --eval 'rs.initiate()'
+  else
+    mongo --eval 'rs.initiate()'
+  fi
   sleep 20
   systemctl start rocketchat
 else

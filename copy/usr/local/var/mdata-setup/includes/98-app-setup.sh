@@ -152,10 +152,10 @@ if /native/usr/sbin/mdata-get jitsi_url 1>/dev/null 2>&1; then
   JITSI_APP_SECRET=$(/native/usr/sbin/mdata-get jitsi_app_secret)
   cat >> /usr/local/bin/setup-jitsi-meet << EOF
 #!/usr/bin/bash
-mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Jitsi_Domain"},{ \$set: {"value": "${JITSI_URL}"} });'
-mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Jitsi_Application_ID"},{ \$set: {"value": "${JITSI_APP_ID}"} });'
-mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Jitsi_Application_Secret"},{ \$set: {"value": "${JITSI_APP_SECRET}"} });'
-mongo --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Jitsi_Enabled"},{ \$set: {"value": true} });'
+mongosh --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Jitsi_Domain"},{ \$set: {"value": "${JITSI_URL}"} });'
+mongosh --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Jitsi_Application_ID"},{ \$set: {"value": "${JITSI_APP_ID}"} });'
+mongosh --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Jitsi_Application_Secret"},{ \$set: {"value": "${JITSI_APP_SECRET}"} });'
+mongosh --quiet --eval 'db.getSiblingDB("${RC_DATABASE}").rocketchat_settings.updateOne({ _id: "Jitsi_Enabled"},{ \$set: {"value": true} });'
 
 EOF
   chmod 0700 /usr/local/bin/setup-jitsi-meet

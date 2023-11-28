@@ -8,10 +8,18 @@ else
   RC_DATABASE="rocket"
 fi
 
-STORAGE=$(mongo --quiet --eval "db.getSiblingDB('${RC_DATABASE}').rocketchat_settings.find({_id: 'FileUpload_Storage_Type'})" | sed -e 's/: [a-zA-Z]*(\([^\)]*\))/: \1/g' | jq ".value" | tr -d '"')
+if [[ -x /usr/bin/mongosh ]]; then
+  STORAGE=$(mongosh --quiet --eval "db.getSiblingDB('${RC_DATABASE}').rocketchat_settings.find({_id: 'FileUpload_Storage_Type'})" |grep 'value:' | awk '{ print $2 }' |sed "s/',//g" |sed "s/'//g")
+else
+  STORAGE=$(mongo --quiet --eval "db.getSiblingDB('${RC_DATABASE}').rocketchat_settings.find({_id: 'FileUpload_Storage_Type'})" | sed -e 's/: [a-zA-Z]*(\([^\)]*\))/: \1/g' | jq ".value" | tr -d '"')
+fi
 
 if [[ "${STORAGE}" = "FileSystem" ]]; then
-  mongo --quiet --eval "db.getSiblingDB('${RC_DATABASE}').rocketchat_settings.find({_id: 'FileUpload_FileSystemPath'})" | sed -e 's/: [a-zA-Z]*(\([^\)]*\))/: \1/g' | jq ".value"
+  if [[ -x /usr/bin/mongosh ]]; then
+    mongosh --quiet --eval "db.getSiblingDB('${RC_DATABASE}').rocketchat_settings.find({_id: 'FileUpload_FileSystemPath'})" | grep 'value:' | awk '{ print $2 }' |sed "s/',//g" |sed "s/'//g"
+  else
+    mongo --quiet --eval "db.getSiblingDB('${RC_DATABASE}').rocketchat_settings.find({_id: 'FileUpload_FileSystemPath'})" | sed -e 's/: [a-zA-Z]*(\([^\)]*\))/: \1/g' | jq ".value"
+  fi
 fi
 
 exit 0

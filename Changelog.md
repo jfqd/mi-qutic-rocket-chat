@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.6.0
+
+* build image for original Rocket.Chat 6.6.0
+
 ## 6.4.8.1
 
 * mongosh is a thing now

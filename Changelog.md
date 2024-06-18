@@ -1,14 +1,18 @@
 # Changelog
 
-## 6.6.0
+## 6.9.1 - 18.06.2024
+
+* build image for original Rocket.Chat 6.9.1
+
+## 6.6.0 - 07.02.2024
 
 * build image for original Rocket.Chat 6.6.0
 
-## 6.4.8.1
+## 6.4.8.1 - 28.11.2023
 
 * mongosh is a thing now
 
-## 6.4.8
+## 6.4.8 - 27.11.2023
 
 * build image for patched Rocket.Chat 6.4.8
 * switch to mongodb 6.0
@@ -16,25 +20,25 @@
 * bypass mongodb verion validation
 * move to ubuntu 22.04
 
-## 6.3.5.1
+## 6.3.5.1 - 21.09.2023
 
 * build image for patched Rocket.Chat 6.3.5
 
-## 6.3.5
+## 6.3.5 - 13.09.2023
 
 * build image for Rocket.Chat 6.3.5
 * use mongodb v5.0 for latest rocket.chat
 
-## 5.0.7
+## 5.0.7 - 14.03.2023
 
 * build image for Rocket.Chat 5.0.7
 
-## 5.0.4.1
+## 5.0.4.1 - 22.08.2022
 
 * add option to skip setup-wizard
 * add reset mongodb option
 
-## 5.0.4
+## 5.0.4 - 20.08.2022
 
 * build image for Rocket.Chat 5.0.4
 

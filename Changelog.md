@@ -1,5 +1,10 @@
 # Changelog
 
+## 6.10.6 - 16.09.2024
+
+* build image for original Rocket.Chat 6.10.6
+* fixes cve-report from 13.09.2024
+
 ## 6.9.1 - 18.06.2024
 
 * build image for original Rocket.Chat 6.9.1

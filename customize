@@ -7,9 +7,9 @@ export LANGUAGE=en_US.utf8
 export LANG=en_US.utf8
 
 # RC 6.10.6
-ROCKET_CHAT_VERSION="7.3.3"
-ROCKET_CHAT_PATCHED=""
-NODE_JS_VERSION="22.11.0"
+ROCKET_CHAT_VERSION="7.4.1"
+ROCKET_CHAT_PATCHED="prebuild"
+NODE_JS_VERSION="22.13.1"
 MONGO_VERSION="6.0"
 
 # RC 6.4.x
@@ -95,6 +95,7 @@ apt-get -y install npm
 npm install -g inherits n
 /usr/local/bin/n $NODE_JS_VERSION
 # npm install npm@latest -g
+hash -r
 
 echo "* Setup rocket-chat"
 addgroup rocket
@@ -108,7 +109,9 @@ else
 fi
 chown -R rocket:rocket /var/www/rocket
 chmod 0644 /var/www/rocket/programs/server/*.json
-su - rocket -c "cd /var/www/rocket/programs/server && npm install"
+if [[ "${ROCKET_CHAT_PATCHED}" != "prebuild" ]]; then
+  su - rocket -c "cd /var/www/rocket/programs/server && npm install"
+fi
 
 echo "* Setup rocket-chat service"
 cp /usr/local/var/tmp/nginx.conf /etc/nginx/nginx.conf

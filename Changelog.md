@@ -1,8 +1,8 @@
 # Changelog
 
-## 7.4.1 - 02.04.2025
+## 6.10.10 - 02.04.2025
 
-* build image for original Rocket.Chat 7.4.1
+* build image for original Rocket.Chat 6.10.10
 
 ## 6.13.0 - 06.11.2024
 

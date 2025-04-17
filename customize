@@ -97,6 +97,9 @@ npm install -g inherits n
 # npm install npm@latest -g
 hash -r
 
+echo "* Install deno dependency"
+npm install -g deno@1.46.3
+
 echo "* Setup rocket-chat"
 addgroup rocket
 adduser --disabled-password --system --quiet --home /var/www/rocket --shell /usr/bin/bash rocket
